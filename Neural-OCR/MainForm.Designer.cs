@@ -156,7 +156,10 @@
             this.Controls.Add(this.textBoxResult);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.groupBox2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "MainForm";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Neural-OCR";
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
