@@ -13,5 +13,6 @@ namespace Neural_OCR
             InitializeComponent();
             _teacher = new Teacher(new NeuralNetwork(30));
         }
+
     }
 }
