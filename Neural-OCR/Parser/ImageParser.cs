@@ -56,7 +56,7 @@ namespace Neural_OCR.Parser
             VectorOfVectorOfPoint contours = new VectorOfVectorOfPoint();
 
             CvInvoke.FindContours(_processedImage, contours, null, RetrType.List, ChainApproxMethod.ChainApproxSimple);
-            _contour = contours[0];
+            _contour = contours[contours.Size - 1];
         }
 
 
@@ -80,7 +80,6 @@ namespace Neural_OCR.Parser
                 new double[]
                 {
                     centroidX, centroidY, area,
-                    moments.Mu02, moments.Mu03, moments.Mu11, moments.Mu12,
                     moments.Mu20, moments.Mu21, moments.Mu30
                 });
         }
