@@ -11,7 +11,7 @@ namespace Neural_OCR
         public MainForm()
         {
             InitializeComponent();
-            _teacher = new Teacher(new NeuralNetwork(30));
+            _teacher = new Teacher(new NeuralNetwork(9, 10, 1));
         }
 
     }
