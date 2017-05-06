@@ -5,37 +5,70 @@ namespace Neural_OCR.Network
 {
     public class Neuron
     {
-        private int _numberOfInputs;
+        private double _biasWeight;
 
-        public List<double> Weights { get; set; }
+        private double _output;
 
-        public Neuron(int numberOfInputs)
+
+        public List<double> Weights;
+
+        public double Error;
+
+        public double Momentum;
+
+        public List<double> Inputs;
+
+
+        private Random _random = new Random();
+
+        public double Output()
         {
-            _numberOfInputs = numberOfInputs;
+            _output = Activation(SumarizeInputs());
+            return _output;
         }
 
-        public double SumarizeInputs(List<double> inputs)
+        public void RandomizeWeights()
+        {
+            for (int i = 0; i < Weights.Count-1; i++)
+            {
+                Weights[i] = _random.NextDouble();
+            }
+
+            _biasWeight = _random.NextDouble();
+        }
+
+        public void AdjustWeights()
+        {
+            for (int i = 0; i < Weights.Count-1; i++)
+            {
+                Weights[i] += Error * Inputs[i];
+            }
+
+            _biasWeight += Error;
+        }
+
+        public void SetError(double globalError)
+        {
+            Error = (-2 * _output * Math.Pow(Math.E, Math.Pow(-_output, 2))) * globalError; //TODO nie jestem pewien czy przypadkiem nie powinno tu być wagi ale to wieczorem xd
+        }
+
+        private double SumarizeInputs()
         {
             double sum = 0;
 
-            for (int i = 0; i < _numberOfInputs-1; i++)
+            for (int i = 0; i < Inputs.Count-1; i++)
             {
-                sum += inputs[i] * Weights[i];
+                sum += Inputs[i] * Weights[i];
             }
 
-            return sum;
+            return sum + _biasWeight;
         }
 
-        public double Activation(double neuronInput)
+        private double Activation(double sumarizedInputs)
         {
-            var output = Math.Pow(Math.E, Math.Pow(-neuronInput, 2));
-            return output;
+            var activatedValue = Math.Pow(Math.E, Math.Pow(-sumarizedInputs, 2));
+            return activatedValue;
         }
-
-        public double ErrorDerivative(double neuronOutput)
-        {
-            var errorOut = -2 * neuronOutput * Math.Pow(Math.E, Math.Pow(-neuronOutput, 2));
-            return errorOut;
-        }
+        
     }
 }
