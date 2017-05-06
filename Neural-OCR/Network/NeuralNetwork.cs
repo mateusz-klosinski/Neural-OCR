@@ -9,9 +9,13 @@ namespace Neural_OCR.Network
         private List<Layer> _hiddenLayers;
         private Layer _outputLayer;
 
+        private Random _randomGenerator;
+
         public int NumberOfInputs { get; private set; }
         public int NumberOfOutputs { get; private set; }
         public int NumberOfHiddenLayers { get; private set; }
+        public double GlobalError { get; private set; }
+
 
         public NeuralNetwork(int numberOfInputs, int numberOfOutputs, int numberOfHiddenLayers)
         {
@@ -20,6 +24,7 @@ namespace Neural_OCR.Network
             NumberOfHiddenLayers = numberOfHiddenLayers;
 
             initializeLayers();
+            randomize();
         }
 
         private void initializeLayers()
@@ -35,19 +40,32 @@ namespace Neural_OCR.Network
         }
 
 
+        private void randomize()
+        {
+            _randomGenerator = new Random();
+
+            _inputLayer.Randomize(_randomGenerator);
+            _hiddenLayers.ForEach(hl => hl.Randomize(_randomGenerator));
+            _outputLayer.Randomize(_randomGenerator);
+        }
+
+
+
+
 
         public void Learn(TeachingElement element)
         {
-            feedForward();
-            backPropagate();
+            GlobalError = feedForward();
+
+            backPropagate(GlobalError);
         }
 
-        private void feedForward()
+        private double feedForward()
         {
             throw new NotImplementedException();
         }
 
-        private void backPropagate()
+        private void backPropagate(double globalError)
         {
             throw new NotImplementedException();
         }
