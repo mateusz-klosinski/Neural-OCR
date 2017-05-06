@@ -55,14 +55,26 @@ namespace Neural_OCR.Network
 
         public void Learn(TeachingElement element)
         {
-            GlobalError = feedForward();
+            GlobalError = forwardPropagate(element);
 
             backPropagate(GlobalError);
         }
 
-        private double feedForward()
+        private double forwardPropagate(TeachingElement element)
         {
-            throw new NotImplementedException();
+            List<double> currentInput = element.Inputs;
+
+            _inputLayer.Inputs = currentInput;
+            currentInput = _inputLayer.Outputs;
+
+            _hiddenLayers.ForEach(hl =>
+            {
+                hl.Inputs = currentInput;
+                currentInput = _inputLayer.Outputs;
+            });
+
+            _outputLayer.Inputs = currentInput;
+            currentInput = _outputLayer.Outputs;
         }
 
         private void backPropagate(double globalError)

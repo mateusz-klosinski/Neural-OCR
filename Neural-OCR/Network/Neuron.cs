@@ -19,17 +19,16 @@ namespace Neural_OCR.Network
         public List<double> Inputs;
 
 
-        private Random _random = new Random();
 
         public double Output()
         {
-            _output = Activation(SumarizeInputs());
+            _output = activation(SumarizeInputs());
             return _output;
         }
 
-        public void RandomizeWeights()
+        public void RandomizeWeights(Random _random)
         {
-            for (int i = 0; i < Weights.Count-1; i++)
+            for (int i = 0; i < Weights.Count - 1; i++)
             {
                 Weights[i] = _random.NextDouble();
             }
@@ -39,7 +38,7 @@ namespace Neural_OCR.Network
 
         public void AdjustWeights()
         {
-            for (int i = 0; i < Weights.Count-1; i++)
+            for (int i = 0; i < Weights.Count - 1; i++)
             {
                 Weights[i] += Error * Inputs[i];
             }
@@ -49,14 +48,19 @@ namespace Neural_OCR.Network
 
         public void SetError(double globalError)
         {
-            Error = (-2 * _output * Math.Pow(Math.E, Math.Pow(-_output, 2))) * globalError; //TODO nie jestem pewien czy przypadkiem nie powinno tu być wagi ale to wieczorem xd
+            Error = derivative(_output) * globalError; //no tu wagi powinny jeszcze być neuronu wyjściowego ale nie za bardzo wiem ocb xd
+        }
+
+        public void SetErrorForOutputNeuron(double expectedResult)
+        {
+            Error = derivative(_output) * (expectedResult - _output);
         }
 
         private double SumarizeInputs()
         {
             double sum = 0;
 
-            for (int i = 0; i < Inputs.Count-1; i++)
+            for (int i = 0; i < Inputs.Count - 1; i++)
             {
                 sum += Inputs[i] * Weights[i];
             }
@@ -64,11 +68,16 @@ namespace Neural_OCR.Network
             return sum + _biasWeight;
         }
 
-        private double Activation(double sumarizedInputs)
+        private double activation(double sumarizedInputs)
         {
-            var activatedValue = Math.Pow(Math.E, Math.Pow(-sumarizedInputs, 2));
+            var activatedValue = 1.0 / (1.0 + Math.Exp(-sumarizedInputs));
             return activatedValue;
         }
-        
+
+        private double derivative(double output)
+        {
+            return output * (1 - output);
+        }
+
     }
 }
