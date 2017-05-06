@@ -35,6 +35,22 @@ namespace Neural_OCR.Network
         }
 
 
+        public List<double> Errors
+        {
+            get
+            {
+                List<double> neuronsErrors = new List<double>();
+
+                neurons.ForEach(n =>
+                {
+                    neuronsErrors.Add(n.Error);
+                });
+
+                return neuronsErrors;
+            }
+        }
+
+
 
         public Layer(int numberOfNeurons)
         {
@@ -68,6 +84,14 @@ namespace Neural_OCR.Network
             {
                 n.SetError(globalError);
             });
+        }
+
+        public void SetOuputNeuronsError(List<double> expectedResults)
+        {
+            for (int i = 0; i < neurons.Count; i++)
+            {
+                neurons[i].SetErrorForOutputNeuron(expectedResults[i]);
+            }
         }
 
 

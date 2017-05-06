@@ -75,6 +75,20 @@ namespace Neural_OCR.Network
 
             _outputLayer.Inputs = currentInput;
             currentInput = _outputLayer.Outputs;
+
+            double globalError = countGlobalError(_outputLayer.Errors);
+            return globalError;
+        }
+
+
+        private double countGlobalError(List<double> layerErrors)
+        {
+            double squaredErrorsSum = 0;
+            layerErrors.ForEach(le => squaredErrorsSum += Math.Pow(le, 2));
+
+            double average = squaredErrorsSum / layerErrors.Count;
+
+            return Math.Sqrt(average);
         }
 
         private void backPropagate(double globalError)
