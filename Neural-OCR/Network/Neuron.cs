@@ -26,7 +26,7 @@ namespace Neural_OCR.Network
 
         public double Output()
         {
-            _output = activation(SumarizeInputs());
+            _output = activation(sumarizeInputs());
             return _output;
         }
 
@@ -61,7 +61,7 @@ namespace Neural_OCR.Network
             Error = expectedResult - _output;
         }
 
-        private double SumarizeInputs()
+        private double sumarizeInputs()
         {
             double sum = 0;
 

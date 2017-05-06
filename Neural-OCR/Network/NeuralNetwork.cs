@@ -11,6 +11,8 @@ namespace Neural_OCR.Network
 
         private Random _randomGenerator;
 
+        private static double _learningRate = 0.6;
+
         public int NumberOfInputs { get; private set; }
         public int NumberOfOutputs { get; private set; }
         public int NumberOfHiddenLayers { get; private set; }
@@ -57,7 +59,7 @@ namespace Neural_OCR.Network
         {
             GlobalError = forwardPropagate(element);
 
-            backPropagate(GlobalError);
+            backPropagate();
         }
 
 
@@ -101,12 +103,9 @@ namespace Neural_OCR.Network
             return Math.Sqrt(average);
         }
 
-
-
-
-        private void backPropagate(double globalError)
+        private void backPropagate()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

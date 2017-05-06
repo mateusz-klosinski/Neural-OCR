@@ -5,13 +5,13 @@ namespace Neural_OCR.Network
 {
     public class Layer
     {
-        private List<Neuron> neurons;
+        private List<Neuron> _neurons;
 
         public List<double> Inputs
         {
             set
             {
-                neurons.ForEach(n =>
+                _neurons.ForEach(n =>
                 {
                     n.Inputs = value;
                 });
@@ -25,7 +25,7 @@ namespace Neural_OCR.Network
             {
                 List<double> neuronsOutput = new List<double>();
 
-                neurons.ForEach(n =>
+                _neurons.ForEach(n =>
                 {
                     neuronsOutput.Add(n.Output());
                 });
@@ -41,7 +41,7 @@ namespace Neural_OCR.Network
             {
                 List<double> neuronsErrors = new List<double>();
 
-                neurons.ForEach(n =>
+                _neurons.ForEach(n =>
                 {
                     neuronsErrors.Add(n.Error);
                 });
@@ -50,6 +50,20 @@ namespace Neural_OCR.Network
             }
         }
 
+        public List<List<double>> EachNeuronWeights
+        {
+            get
+            {
+                List<List<double>> eachNeuronWeights = new List<List<double>>();
+
+                _neurons.ForEach(n =>
+                {
+                    eachNeuronWeights.Add(n.Weights);
+                });
+
+                return eachNeuronWeights;
+            }
+        }
 
 
         public Layer(int numberOfNeurons)
@@ -60,46 +74,45 @@ namespace Neural_OCR.Network
 
 
 
-
         private void initializeNeurons(int numberOfNeurons)
         {
-            neurons = new List<Neuron>();
+            _neurons = new List<Neuron>();
             for (int i = 0; i < numberOfNeurons; i++)
             {
-                neurons.Add(new Neuron());
+                _neurons.Add(new Neuron());
             }
         }
 
 
         public void Randomize(Random randomGenerator)
         {
-            neurons.ForEach(n => n.RandomizeWeights(randomGenerator));
+            _neurons.ForEach(n => n.RandomizeWeights(randomGenerator));
         }
 
 
 
-        public void SetNeruonsError(double globalError)
+        public void SetNeuronsError(List<double> forwardNeuronsErrors, List<List<double>> forwardNeuronsWeights)
         {
-            neurons.ForEach(n =>
+            for (int i = 0; i < _neurons.Count - 1; i++)
             {
-                n.SetError(globalError);
-            });
+                _neurons[i].SetError(forwardNeuronsErrors, forwardNeuronsWeights[i]);
+            }
         }
 
         public void SetOuputNeuronsError(List<double> expectedResults)
         {
-            for (int i = 0; i < neurons.Count; i++)
+            for (int i = 0; i < _neurons.Count - 1; i++)
             {
-                neurons[i].SetErrorForOutputNeuron(expectedResults[i]);
+                _neurons[i].SetErrorForOutputNeuron(expectedResults[i]);
             }
         }
 
 
-        public void AdjustNeuronsWeights()
+        public void AdjustNeuronsWeights(double learningRate, List<double> previousNeuronsOutput)
         {
-            neurons.ForEach(n =>
+            _neurons.ForEach(n =>
             {
-                n.AdjustWeights();
+                n.AdjustWeights(learningRate, previousNeuronsOutput);
             });
         }
     }
