@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Neural_OCR.Network
 {
@@ -18,7 +19,10 @@ namespace Neural_OCR.Network
 
         public List<double> Inputs;
 
-
+        public Neuron()
+        {
+            Weights = new List<double>();
+        }
 
         public double Output()
         {
@@ -36,24 +40,25 @@ namespace Neural_OCR.Network
             _biasWeight = _random.NextDouble();
         }
 
-        public void AdjustWeights()
+        public void AdjustWeights(double learningRate, List<double> previousNeuronsOutput)
         {
             for (int i = 0; i < Weights.Count - 1; i++)
             {
-                Weights[i] += Error * Inputs[i];
+                Weights[i] = Weights[i] + learningRate * Error * derivative(previousNeuronsOutput[i]);
             }
-
-            _biasWeight += Error;
         }
 
-        public void SetError(double globalError)
+        public void SetError(List<double> forwardNeuronsErrors, List<double> forwardNeuronsWeights)
         {
-            Error = derivative(_output) * globalError; //no tu wagi powinny jeszcze być neuronu wyjściowego ale nie za bardzo wiem ocb xd
+            for (int i = 0; i < forwardNeuronsWeights.Count - 1; i++)
+            {
+                Error += forwardNeuronsErrors[i] * forwardNeuronsWeights[i];
+            }
         }
 
         public void SetErrorForOutputNeuron(double expectedResult)
         {
-            Error = derivative(_output) * (expectedResult - _output);
+            Error = expectedResult - _output;
         }
 
         private double SumarizeInputs()
@@ -74,9 +79,9 @@ namespace Neural_OCR.Network
             return activatedValue;
         }
 
-        private double derivative(double output)
+        private double derivative(double value)
         {
-            return output * (1 - output);
+            return value * (1 - value);
         }
 
     }
