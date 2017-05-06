@@ -60,26 +60,36 @@ namespace Neural_OCR.Network
             backPropagate(GlobalError);
         }
 
+
+
         private double forwardPropagate(TeachingElement element)
         {
-            List<double> currentInput = element.Inputs;
+            List<double> inputResponse = layerResponse(_inputLayer, element.Inputs);
+            List<double> hiddenResponse = hiddenLayersResponse(inputResponse);
+            List<double> outputResponse = layerResponse(_outputLayer, hiddenResponse);
 
-            _inputLayer.Inputs = currentInput;
-            currentInput = _inputLayer.Outputs;
-
-            _hiddenLayers.ForEach(hl =>
-            {
-                hl.Inputs = currentInput;
-                currentInput = _inputLayer.Outputs;
-            });
-
-            _outputLayer.Inputs = currentInput;
-            currentInput = _outputLayer.Outputs;
+            _outputLayer.SetOuputNeuronsError(element.ExpectedOutputs);
 
             double globalError = countGlobalError(_outputLayer.Errors);
             return globalError;
         }
 
+        private List<double> layerResponse(Layer layer, List<double> inputs)
+        {
+            layer.Inputs = inputs;
+            return layer.Outputs;
+        }
+
+        private List<double> hiddenLayersResponse(List<double> inputs)
+        {
+            List<double> currentResponse = inputs;
+            _hiddenLayers.ForEach(hl => 
+            {
+               currentResponse = layerResponse(hl, currentResponse);
+            });
+
+            return currentResponse;
+        }
 
         private double countGlobalError(List<double> layerErrors)
         {
@@ -90,6 +100,9 @@ namespace Neural_OCR.Network
 
             return Math.Sqrt(average);
         }
+
+
+
 
         private void backPropagate(double globalError)
         {
