@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Neural_OCR.Network
 {
@@ -57,16 +58,18 @@ namespace Neural_OCR.Network
 
         public void Learn(TeachingElement element)
         {
-            GlobalError = forwardPropagate(element);
+            List<double> inputResponse;
 
-            backPropagate();
+            GlobalError = forwardPropagate(element, out inputResponse);
+
+            backPropagate(element, inputResponse);
         }
 
 
 
-        private double forwardPropagate(TeachingElement element)
+        private double forwardPropagate(TeachingElement element, out List<double> inputResponse)
         {
-            List<double> inputResponse = layerResponse(_inputLayer, element.Inputs);
+            inputResponse = layerResponse(_inputLayer, element.Inputs);
             List<double> hiddenResponse = hiddenLayersResponse(inputResponse);
             List<double> outputResponse = layerResponse(_outputLayer, hiddenResponse);
 
@@ -103,9 +106,32 @@ namespace Neural_OCR.Network
             return Math.Sqrt(average);
         }
 
-        private void backPropagate()
+        private void backPropagate(TeachingElement element, List<double> inputResponse)
         {
+            var firstHiddenLayer = _hiddenLayers.First(); 
             
+            /*Wsteczna propagacja błędów*/
+
+
+            _hiddenLayers.ForEach(hl =>
+            {
+                hl.SetNeuronsError(_outputLayer.Errors, _outputLayer.EachNeuronWeights);
+            });
+
+            _inputLayer.SetNeuronsError(firstHiddenLayer.Errors, firstHiddenLayer.EachNeuronWeights);
+
+
+            /*Dostosowywanie wag*/
+
+
+            _inputLayer.AdjustNeuronsWeights(_learningRate, element.Inputs);
+
+            _hiddenLayers.ForEach(hl =>
+            {
+                hl.AdjustNeuronsWeights(_learningRate, inputResponse);
+            });
+            
+
         }
     }
 }

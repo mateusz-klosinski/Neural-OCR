@@ -66,6 +66,7 @@ namespace Neural_OCR.Network
         }
 
 
+
         public Layer(int numberOfNeurons)
         {
             initializeNeurons(numberOfNeurons);
@@ -82,14 +83,11 @@ namespace Neural_OCR.Network
                 _neurons.Add(new Neuron());
             }
         }
-
-
+        
         public void Randomize(Random randomGenerator)
         {
             _neurons.ForEach(n => n.RandomizeWeights(randomGenerator));
         }
-
-
 
         public void SetNeuronsError(List<double> forwardNeuronsErrors, List<List<double>> forwardNeuronsWeights)
         {
@@ -106,8 +104,7 @@ namespace Neural_OCR.Network
                 _neurons[i].SetErrorForOutputNeuron(expectedResults[i]);
             }
         }
-
-
+        
         public void AdjustNeuronsWeights(double learningRate, List<double> previousNeuronsOutput)
         {
             _neurons.ForEach(n =>

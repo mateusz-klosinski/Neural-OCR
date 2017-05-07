@@ -7,16 +7,12 @@ namespace Neural_OCR.Network
     public class Neuron
     {
         private double _biasWeight;
-
         private double _output;
 
-
-        public List<double> Weights;
-
         public double Error;
-
         public double Momentum;
 
+        public List<double> Weights;
         public List<double> Inputs;
 
         public Neuron()
