@@ -31,6 +31,8 @@ namespace Neural_OCR.Network
             randomize();
         }
 
+
+
         private void initializeLayers()
         {
             _inputLayer = new Layer(NumberOfInputs);
@@ -55,36 +57,29 @@ namespace Neural_OCR.Network
 
 
 
+        public List<double> Test(TeachingElement element)
+        {
+            List<double> outputResponse = forwardPropagate(element);
+            return outputResponse;
+        }
 
 
         public void Learn(TeachingElement element)
         {
-            GlobalError = forwardPropagate(element);
-
+            forwardPropagate(element);
             backPropagate(element);
+
+            GlobalError = countGlobalError(_outputLayer.Errors);
         }
 
 
-        public List<double> Test(TeachingElement element)
+        private List<double> forwardPropagate(TeachingElement element)
         {
             List<double> inputResponse = layerResponse(_inputLayer, element.Inputs);
             List<double> hiddenResponse = hiddenLayersResponse(inputResponse);
             List<double> outputResponse = layerResponse(_outputLayer, hiddenResponse);
 
             return outputResponse;
-        }
-
-
-        private double forwardPropagate(TeachingElement element)
-        {
-            List<double> inputResponse = layerResponse(_inputLayer, element.Inputs);
-            List<double> hiddenResponse = hiddenLayersResponse(inputResponse);
-            List<double> outputResponse = layerResponse(_outputLayer, hiddenResponse);
-
-            _outputLayer.SetOuputNeuronsError(element.ExpectedOutputs);
-
-            double globalError = countGlobalError(_outputLayer.Errors);
-            return globalError;
         }
 
         private List<double> layerResponse(Layer layer, List<double> inputs)
@@ -116,9 +111,9 @@ namespace Neural_OCR.Network
 
 
 
-
         private void backPropagate(TeachingElement element)
         {
+            _outputLayer.SetOuputNeuronsError(element.ExpectedOutputs);
             propagateErrorThroughLayers();
             adjustWeights();
         }

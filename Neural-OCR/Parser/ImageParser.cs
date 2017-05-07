@@ -25,6 +25,8 @@ namespace Neural_OCR.Parser
 
         public TeachingElement CreateTeachingElementFromImage(string path, int expectedDigit)
         {
+            _extractedFeatures.Clear();
+
             loadImageFromFile(path);
             preprocessImage();
             findContour();
@@ -63,7 +65,7 @@ namespace Neural_OCR.Parser
 
         private void extractFeaturesFromContour()
         {
-            calculateMoments();
+            //calculateMoments();
             calculateArcLength();
             calculateAxisLengths();
         }
@@ -72,29 +74,29 @@ namespace Neural_OCR.Parser
         {
             MCvMoments moments = CvInvoke.Moments(_contour, true);
 
-            double centroidX = moments.M10 / moments.M00;
-            double centroidY = moments.M01 / moments.M00;
-            double area = moments.M00;
+            double centroidX = moments.M10 / moments.M00 / 100;
+            double centroidY = moments.M01 / moments.M00 / 100;
+            double area = moments.M00 / 10000;
 
             _extractedFeatures.AddRange(
                 new double[]
                 {
                     centroidX, centroidY, area,
-                    moments.Mu20, moments.Mu21, moments.Mu30
+                    moments.Mu20 / 1000000, moments.Mu21 / 1000000, moments.Mu30 / 1000000
                 });
         }
 
         private void calculateArcLength()
         {
-            double arcLength = CvInvoke.ArcLength(_contour, true);
+            double arcLength = CvInvoke.ArcLength(_contour, true) / 1000;
             _extractedFeatures.Add(arcLength);
         }
 
         private void calculateAxisLengths()
         {
             RotatedRect elipse = CvInvoke.FitEllipse(_contour);
-            double majorAxis = elipse.Size.Height;
-            double minorAxis = elipse.Size.Width;
+            double majorAxis = elipse.Size.Height / 1000;
+            double minorAxis = elipse.Size.Width / 1000;
 
             _extractedFeatures.AddRange(new double[] { majorAxis, minorAxis });
         }
