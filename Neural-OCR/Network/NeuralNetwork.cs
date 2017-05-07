@@ -65,6 +65,15 @@ namespace Neural_OCR.Network
         }
 
 
+        public List<double> Test(TeachingElement element)
+        {
+            List<double> inputResponse = layerResponse(_inputLayer, element.Inputs);
+            List<double> hiddenResponse = hiddenLayersResponse(inputResponse);
+            List<double> outputResponse = layerResponse(_outputLayer, hiddenResponse);
+
+            return outputResponse;
+        }
+
 
         private double forwardPropagate(TeachingElement element)
         {

@@ -91,7 +91,7 @@ namespace Neural_OCR.Network
 
         public void SetNeuronsError(List<double> forwardNeuronsErrors, List<List<double>> forwardNeuronsWeights)
         {
-            for (int i = 0; i < _neurons.Count; i++)
+            for (int i = 0; i < forwardNeuronsWeights.Count; i++)
             {
                 _neurons[i].SetError(forwardNeuronsErrors, forwardNeuronsWeights[i]);
             }
