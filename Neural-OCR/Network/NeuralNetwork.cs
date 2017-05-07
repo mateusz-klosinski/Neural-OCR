@@ -110,20 +110,33 @@ namespace Neural_OCR.Network
 
         private void backPropagate(TeachingElement element)
         {
+            propagateErrorThroughLayers();
+            adjustWeights();
+        }
+
+        private void propagateErrorThroughLayers()
+        {
             List<List<double>> weights = _outputLayer.EachNeuronWeights;
             List<double> errors = _outputLayer.Errors;
 
             List<Layer> reversedHiddenLayers = new List<Layer>(_hiddenLayers);
             reversedHiddenLayers.Reverse();
 
-            reversedHiddenLayers.ForEach(rhl => 
+            reversedHiddenLayers.ForEach(rhl =>
             {
                 rhl.SetNeuronsError(errors, weights);
                 weights = rhl.EachNeuronWeights;
                 errors = rhl.Errors;
             });
 
+            _inputLayer.SetNeuronsError(errors, weights);
+        }
 
+        private void adjustWeights()
+        {
+            _inputLayer.AdjustNeuronsWeights(_learningRate);
+            _hiddenLayers.ForEach(hl => hl.AdjustNeuronsWeights(_learningRate));
+            _outputLayer.AdjustNeuronsWeights(_learningRate);
         }
     }
 }

@@ -105,11 +105,11 @@ namespace Neural_OCR.Network
             }
         }
         
-        public void AdjustNeuronsWeights(double learningRate, List<double> previousNeuronsOutput)
+        public void AdjustNeuronsWeights(double learningRate)
         {
             _neurons.ForEach(n =>
             {
-                n.AdjustWeights(learningRate, previousNeuronsOutput);
+                n.AdjustWeights(learningRate);
             });
         }
     }
