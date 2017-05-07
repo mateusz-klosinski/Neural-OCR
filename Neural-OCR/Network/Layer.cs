@@ -7,6 +7,7 @@ namespace Neural_OCR.Network
     public class Layer
     {
         private List<Neuron> _neurons;
+        private object n;
 
         public List<double> Inputs
         {
@@ -84,7 +85,7 @@ namespace Neural_OCR.Network
                 _neurons.Add(new Neuron());
             }
         }
-        
+
         public void Randomize(Random randomGenerator, int numberOfInputs)
         {
             _neurons.ForEach(n => n.RandomizeWeights(randomGenerator, numberOfInputs));
@@ -106,13 +107,29 @@ namespace Neural_OCR.Network
                 _neurons[i].SetErrorForOutputNeuron(expectedResults[i]);
             }
         }
-        
+
         public void AdjustNeuronsWeights(double learningRate)
         {
+            //_neurons.ForEach(n =>
+            //{
+            //    n.AdjustWeights(learningRate);
+            //});
+            //
+
+
+            //Winner Takes All
+            Neuron winner = null;
+            double maxOutput = 0;
             _neurons.ForEach(n =>
             {
-                n.AdjustWeights(learningRate);
+                if (n.Output() > maxOutput)
+                {
+                    maxOutput = n.Output();
+                    winner = n;
+                }
             });
+
+            winner.AdjustWeights(learningRate);
         }
     }
 }
