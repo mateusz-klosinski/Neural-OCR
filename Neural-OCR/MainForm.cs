@@ -11,8 +11,8 @@ namespace Neural_OCR
         public MainForm()
         {
             InitializeComponent();
-            _teacher = new Teacher(new NeuralNetwork(18, 10, 0));
-            _teacher.Learn(10000);
+            _teacher = new Teacher(new NeuralNetwork(2, 1, 0));
+            _teacher.Learn(2000);
             _teacher.Test();
         }
 

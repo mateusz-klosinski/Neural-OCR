@@ -7,7 +7,6 @@ namespace Neural_OCR.Network
     public class Layer
     {
         private List<Neuron> _neurons;
-        private object n;
 
         public List<double> Inputs
         {
@@ -117,7 +116,7 @@ namespace Neural_OCR.Network
 
 
 
-            //Winner Takes All
+            //WTA
             Neuron winner = null;
             double maxOutput = 0;
             _neurons.ForEach(n =>
@@ -130,6 +129,8 @@ namespace Neural_OCR.Network
             });
 
             winner.AdjustWeights(learningRate);
+
+
         }
     }
 }

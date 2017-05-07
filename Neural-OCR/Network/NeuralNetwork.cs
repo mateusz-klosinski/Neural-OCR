@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Neural_OCR.Network
 {
@@ -91,9 +90,9 @@ namespace Neural_OCR.Network
         private List<double> hiddenLayersResponse(List<double> inputs)
         {
             List<double> currentResponse = inputs;
-            _hiddenLayers.ForEach(hl => 
+            _hiddenLayers.ForEach(hl =>
             {
-               currentResponse = layerResponse(hl, currentResponse);
+                currentResponse = layerResponse(hl, currentResponse);
             });
 
             return currentResponse;

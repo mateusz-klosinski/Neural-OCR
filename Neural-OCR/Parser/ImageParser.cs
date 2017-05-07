@@ -1,11 +1,8 @@
 ﻿using Emgu.CV;
 using Emgu.CV.CvEnum;
-using Emgu.CV.Structure;
 using Emgu.CV.Util;
 using Neural_OCR.Network;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
 
 namespace Neural_OCR.Parser
 {
@@ -67,49 +64,7 @@ namespace Neural_OCR.Parser
 
         private void extractFeaturesFromContour()
         {
-            //calculateMoments();
-            //calculateArcLength();
-            //calculateAxisLengths();
-            _extractedFeatures.Clear();
 
-            HOGDescriptor descriptor = new HOGDescriptor(new Size(64, 128), new Size(64, 64), new Size(64, 64), new Size(64, 64));
-            CvInvoke.Resize(_processedImage, _processedImage, new Size(64, 128));
-            float[] result = descriptor.Compute(_processedImage);
-
-            double[] doubleResult = Array.ConvertAll(result, x => (double)x);
-
-            _extractedFeatures.AddRange(doubleResult);
-        }
-
-        private void calculateMoments()
-        {
-            MCvMoments moments = CvInvoke.Moments(_contour, true);
-
-            double centroidX = moments.M10 / moments.M00 / 100;
-            double centroidY = moments.M01 / moments.M00 / 100;
-            double area = moments.M00 / 10000;
-
-            _extractedFeatures.AddRange(
-                new double[]
-                {
-                    centroidX, centroidY, area,
-                    moments.Mu20 / 1000000, moments.Mu21 / 1000000, moments.Mu30 / 1000000
-                });
-        }
-
-        private void calculateArcLength()
-        {
-            double arcLength = CvInvoke.ArcLength(_contour, true) / 1000;
-            _extractedFeatures.Add(arcLength);
-        }
-
-        private void calculateAxisLengths()
-        {
-            RotatedRect elipse = CvInvoke.FitEllipse(_contour);
-            double majorAxis = elipse.Size.Height / 1000;
-            double minorAxis = elipse.Size.Width / 1000;
-
-            _extractedFeatures.AddRange(new double[] { majorAxis, minorAxis });
         }
 
     }
