@@ -59,18 +59,16 @@ namespace Neural_OCR.Network
 
         public void Learn(TeachingElement element)
         {
-            List<double> inputResponse;
+            GlobalError = forwardPropagate(element);
 
-            GlobalError = forwardPropagate(element, out inputResponse);
-
-            backPropagate(element, inputResponse);
+            backPropagate(element);
         }
 
 
 
-        private double forwardPropagate(TeachingElement element, out List<double> inputResponse)
+        private double forwardPropagate(TeachingElement element)
         {
-            inputResponse = layerResponse(_inputLayer, element.Inputs);
+            List<double> inputResponse = layerResponse(_inputLayer, element.Inputs);
             List<double> hiddenResponse = hiddenLayersResponse(inputResponse);
             List<double> outputResponse = layerResponse(_outputLayer, hiddenResponse);
 
@@ -107,31 +105,24 @@ namespace Neural_OCR.Network
             return Math.Sqrt(average);
         }
 
-        private void backPropagate(TeachingElement element, List<double> inputResponse)
+
+
+
+        private void backPropagate(TeachingElement element)
         {
-            var firstHiddenLayer = _hiddenLayers.First(); 
-            
-            /*Wsteczna propagacja błędów*/
+            List<List<double>> weights = _outputLayer.EachNeuronWeights;
+            List<double> errors = _outputLayer.Errors;
 
+            List<Layer> reversedHiddenLayers = new List<Layer>(_hiddenLayers);
+            reversedHiddenLayers.Reverse();
 
-            _hiddenLayers.ForEach(hl =>
+            reversedHiddenLayers.ForEach(rhl => 
             {
-                hl.SetNeuronsError(_outputLayer.Errors, _outputLayer.EachNeuronWeights);
+                rhl.SetNeuronsError(errors, weights);
+                weights = rhl.EachNeuronWeights;
+                errors = rhl.Errors;
             });
 
-            _inputLayer.SetNeuronsError(firstHiddenLayer.Errors, firstHiddenLayer.EachNeuronWeights);
-
-
-            /*Dostosowywanie wag*/
-
-
-            _inputLayer.AdjustNeuronsWeights(_learningRate, element.Inputs);
-
-            _hiddenLayers.ForEach(hl =>
-            {
-                hl.AdjustNeuronsWeights(_learningRate, inputResponse);
-            });
-            
 
         }
     }

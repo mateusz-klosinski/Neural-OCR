@@ -46,11 +46,11 @@ namespace Neural_OCR.Network
             _biasWeight = _biasWeight + learningRate * Error * _biasValue;
         }
 
-        public void SetError(List<double> forwardNeuronsErrors, List<double> forwardNeuronsWeights)
+        public void SetError(double forwardNeuronsError, List<double> forwardNeuronsWeights)
         {
             for (int i = 0; i < forwardNeuronsWeights.Count - 1; i++)
             {
-                Error += forwardNeuronsErrors[i] * forwardNeuronsWeights[i];
+                Error += forwardNeuronsError * forwardNeuronsWeights[i];
             }
         }
 

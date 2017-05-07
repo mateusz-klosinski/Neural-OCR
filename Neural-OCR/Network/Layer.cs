@@ -93,7 +93,7 @@ namespace Neural_OCR.Network
         {
             for (int i = 0; i < _neurons.Count - 1; i++)
             {
-                _neurons[i].SetError(forwardNeuronsErrors, forwardNeuronsWeights[i]);
+                _neurons[i].SetError(forwardNeuronsErrors[i], forwardNeuronsWeights[i]);
             }
         }
 
