@@ -38,9 +38,9 @@ namespace Neural_OCR.Network
 
         public void AdjustWeights(double learningRate)
         {
-            for (int i = 0; i < Weights.Count - 1; i++)
+            for (int i = 0; i < Weights.Count; i++)
             {
-                Weights[i] = Weights[i] + learningRate * Error * derivative(Inputs[i]);
+                Weights[i] = Weights[i] + learningRate * Error * Inputs[i];
             }
 
             _biasWeight = _biasWeight + learningRate * Error * _biasValue;
@@ -48,9 +48,10 @@ namespace Neural_OCR.Network
 
         public void SetError(List<double> forwardNeuronsErrors, List<double> forwardNeuronsWeights)
         {
-            for (int i = 0; i < forwardNeuronsWeights.Count - 1; i++)
+            Error = 0;
+            for (int i = 0; i < forwardNeuronsWeights.Count; i++)
             {
-                Error += forwardNeuronsErrors[i] * forwardNeuronsWeights[i];
+                Error += forwardNeuronsErrors[i] * forwardNeuronsWeights[i] * derivative(_output);
             }
         }
 
@@ -63,7 +64,7 @@ namespace Neural_OCR.Network
         {
             double sum = 0;
 
-            for (int i = 0; i < Inputs.Count - 1; i++)
+            for (int i = 0; i < Inputs.Count; i++)
             {
                 sum += Inputs[i] * Weights[i];
             }

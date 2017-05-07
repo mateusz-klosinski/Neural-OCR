@@ -32,23 +32,25 @@ namespace Neural_OCR.Network
                 ExpectedOutputs = new List<double>(new double[] { 0 })
             };
 
-            TeachingElement element2 = new TeachingElement
-            {
-                Inputs = new List<double>(new double[] { 1, 1 }),
-                ExpectedOutputs = new List<double>(new double[] { 0 })
-            };
 
-            TeachingElement element3 = new TeachingElement
+            TeachingElement element2 = new TeachingElement
             {
                 Inputs = new List<double>(new double[] { 0, 1 }),
                 ExpectedOutputs = new List<double>(new double[] { 1 })
             };
 
-            TeachingElement element4 = new TeachingElement
+            TeachingElement element3 = new TeachingElement
             {
                 Inputs = new List<double>(new double[] { 1, 0 }),
                 ExpectedOutputs = new List<double>(new double[] { 1 })
             };
+
+            TeachingElement element4 = new TeachingElement
+            {
+                Inputs = new List<double>(new double[] { 1, 1 }),
+                ExpectedOutputs = new List<double>(new double[] { 0 })
+            };
+
 
             List<TeachingElement> elements = new List<TeachingElement>
             {
@@ -58,7 +60,9 @@ namespace Neural_OCR.Network
             for (int i = 0; i < numberOfEpochs; i++)
             {
                 elements.ForEach(e => _network.Learn(e));
-                Console.WriteLine(GlobalError);
+                elements.Reverse();
+                //if (i == 0 || i == numberOfEpochs - 1)
+                    Console.WriteLine(GlobalError);
             }
         }
 
@@ -67,14 +71,14 @@ namespace Neural_OCR.Network
         {
             TeachingElement element3 = new TeachingElement
             {
-                Inputs = new List<double>(new double[] { 1, 1 }),
-                ExpectedOutputs = new List<double>(new double[] { 0 })
+                Inputs = new List<double>(new double[] { 0, 0 }),
+                ExpectedOutputs = new List<double>(new double[] { 1 })
             };
 
             List<double> outputs = _network.Test(element3);
 
             Console.WriteLine("Output!");
-            outputs.ForEach(o => Console.WriteLine(0));
+            outputs.ForEach(o => Console.WriteLine(o));
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Neural_OCR
         {
             InitializeComponent();
             _teacher = new Teacher(new NeuralNetwork(2, 1, 1));
-            _teacher.Learn(1000);
+            _teacher.Learn(5000);
             _teacher.Test();
         }
 

@@ -125,8 +125,8 @@ namespace Neural_OCR.Network
 
         private void propagateErrorThroughLayers()
         {
-            List<List<double>> weights = _outputLayer.EachNeuronWeights;
             List<double> errors = _outputLayer.Errors;
+            List<List<double>> weights = _outputLayer.EachNeuronWeights;
 
             List<Layer> reversedHiddenLayers = new List<Layer>(_hiddenLayers);
             reversedHiddenLayers.Reverse();
