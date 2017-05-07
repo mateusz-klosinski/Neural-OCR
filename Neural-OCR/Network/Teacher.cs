@@ -1,6 +1,7 @@
 ﻿using Neural_OCR.Parser;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Neural_OCR.Network
 {
@@ -8,6 +9,7 @@ namespace Neural_OCR.Network
     {
         private ImageParser _parser;
         private NeuralNetwork _network;
+        private List<TeachingElement> _elements;
 
         public double GlobalError
         {
@@ -21,64 +23,32 @@ namespace Neural_OCR.Network
         {
             _parser = new ImageParser();
             _network = network;
+            _elements = new List<TeachingElement>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                _elements.Add(_parser.CreateTeachingElementFromImage(
+                    Path.GetFullPath($"Digits/{i}.jpg"),
+                    i
+                    ));
+            }
         }
 
 
         public void Learn(int numberOfEpochs)
         {
-            TeachingElement element1 = new TeachingElement
-            {
-                Inputs = new List<double>(new double[] { 0, 0 }),
-                ExpectedOutputs = new List<double>(new double[] { 0 })
-            };
-
-
-            TeachingElement element2 = new TeachingElement
-            {
-                Inputs = new List<double>(new double[] { 0, 1 }),
-                ExpectedOutputs = new List<double>(new double[] { 1 })
-            };
-
-            TeachingElement element3 = new TeachingElement
-            {
-                Inputs = new List<double>(new double[] { 1, 0 }),
-                ExpectedOutputs = new List<double>(new double[] { 1 })
-            };
-
-            TeachingElement element4 = new TeachingElement
-            {
-                Inputs = new List<double>(new double[] { 1, 1 }),
-                ExpectedOutputs = new List<double>(new double[] { 0 })
-            };
-
-
-            List<TeachingElement> elements = new List<TeachingElement>
-            {
-                element1, element2, element3, element4
-            };
-
             for (int i = 0; i < numberOfEpochs; i++)
             {
-                elements.ForEach(e => _network.Learn(e));
-                elements.Reverse();
+                _elements.ForEach(e => _network.Learn(e));
+                _elements.Reverse();
                 //if (i == 0 || i == numberOfEpochs - 1)
-                    Console.WriteLine(GlobalError);
+                Console.WriteLine(GlobalError);
             }
         }
 
 
         public void Test()
         {
-            TeachingElement element3 = new TeachingElement
-            {
-                Inputs = new List<double>(new double[] { 0, 0 }),
-                ExpectedOutputs = new List<double>(new double[] { 1 })
-            };
-
-            List<double> outputs = _network.Test(element3);
-
-            Console.WriteLine("Output!");
-            outputs.ForEach(o => Console.WriteLine(o));
         }
     }
 }

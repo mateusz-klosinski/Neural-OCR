@@ -114,7 +114,7 @@ namespace Neural_OCR.Network
             //{
             //    n.AdjustWeights(learningRate);
             //});
-            //
+
 
 
             //Winner Takes All
