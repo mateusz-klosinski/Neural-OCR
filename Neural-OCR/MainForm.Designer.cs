@@ -31,11 +31,11 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.buttonPickImage = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.buttonTeachNetwork = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.numericUpDownEpochs = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
             this.labelError = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.numericUpDownEpochs = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.buttonTeachNetwork = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.textBoxResult = new System.Windows.Forms.TextBox();
             this.buttonRecognize = new System.Windows.Forms.Button();
@@ -77,30 +77,15 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Controls";
             // 
-            // buttonTeachNetwork
+            // labelError
             // 
-            this.buttonTeachNetwork.Location = new System.Drawing.Point(236, 96);
-            this.buttonTeachNetwork.Name = "buttonTeachNetwork";
-            this.buttonTeachNetwork.Size = new System.Drawing.Size(124, 23);
-            this.buttonTeachNetwork.TabIndex = 2;
-            this.buttonTeachNetwork.Text = "Teach network";
-            this.buttonTeachNetwork.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(236, 51);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Number of epochs";
-            // 
-            // numericUpDownEpochs
-            // 
-            this.numericUpDownEpochs.Location = new System.Drawing.Point(239, 70);
-            this.numericUpDownEpochs.Name = "numericUpDownEpochs";
-            this.numericUpDownEpochs.Size = new System.Drawing.Size(122, 20);
-            this.numericUpDownEpochs.TabIndex = 4;
+            this.labelError.AutoSize = true;
+            this.labelError.ForeColor = System.Drawing.Color.Green;
+            this.labelError.Location = new System.Drawing.Point(236, 139);
+            this.labelError.Name = "labelError";
+            this.labelError.Size = new System.Drawing.Size(52, 13);
+            this.labelError.TabIndex = 6;
+            this.labelError.Text = "0,049043";
             // 
             // label2
             // 
@@ -111,15 +96,31 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Error";
             // 
-            // labelError
+            // numericUpDownEpochs
             // 
-            this.labelError.AutoSize = true;
-            this.labelError.ForeColor = System.Drawing.Color.Green;
-            this.labelError.Location = new System.Drawing.Point(236, 139);
-            this.labelError.Name = "labelError";
-            this.labelError.Size = new System.Drawing.Size(52, 13);
-            this.labelError.TabIndex = 6;
-            this.labelError.Text = "0,049043";
+            this.numericUpDownEpochs.Location = new System.Drawing.Point(239, 70);
+            this.numericUpDownEpochs.Name = "numericUpDownEpochs";
+            this.numericUpDownEpochs.Size = new System.Drawing.Size(122, 20);
+            this.numericUpDownEpochs.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(236, 51);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(94, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Number of epochs";
+            // 
+            // buttonTeachNetwork
+            // 
+            this.buttonTeachNetwork.Location = new System.Drawing.Point(236, 96);
+            this.buttonTeachNetwork.Name = "buttonTeachNetwork";
+            this.buttonTeachNetwork.Size = new System.Drawing.Size(124, 23);
+            this.buttonTeachNetwork.TabIndex = 2;
+            this.buttonTeachNetwork.Text = "Teach network";
+            this.buttonTeachNetwork.UseVisualStyleBackColor = true;
+            this.buttonTeachNetwork.Click += new System.EventHandler(this.buttonTeachNetwork_Click);
             // 
             // label4
             // 
