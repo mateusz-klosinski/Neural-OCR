@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Neural_OCR.Network
 {
@@ -93,7 +94,8 @@ namespace Neural_OCR.Network
         {
             for (int i = 0; i < _neurons.Count; i++)
             {
-                _neurons[i].SetError(forwardNeuronsErrors, forwardNeuronsWeights[i]);
+                var weightsOnUsedConnection = forwardNeuronsWeights.Select(weights => weights[i]).ToList(); // oby to działało xd
+                _neurons[i].SetError(forwardNeuronsErrors, weightsOnUsedConnection);
             }
         }
 
