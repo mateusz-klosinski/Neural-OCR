@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 
 namespace Neural_OCR.Network
 {
-    public class Neuron
+    public class Neuron //TODO Zaimplementować momentum
     {
         private double _biasWeight;
+        private static double _biasValue = 1.0;
         private double _output;
 
         public double Error;
-        public double Momentum;
 
         public List<double> Weights;
         public List<double> Inputs;
@@ -42,6 +42,8 @@ namespace Neural_OCR.Network
             {
                 Weights[i] = Weights[i] + learningRate * Error * derivative(previousNeuronsOutput[i]);
             }
+
+            _biasWeight = _biasWeight + learningRate * Error * _biasValue;
         }
 
         public void SetError(List<double> forwardNeuronsErrors, List<double> forwardNeuronsWeights)
@@ -66,7 +68,7 @@ namespace Neural_OCR.Network
                 sum += Inputs[i] * Weights[i];
             }
 
-            return sum + _biasWeight;
+            return sum + _biasWeight * _biasValue;
         }
 
         private double activation(double sumarizedInputs)
