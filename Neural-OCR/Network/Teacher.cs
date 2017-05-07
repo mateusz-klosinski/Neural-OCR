@@ -61,5 +61,20 @@ namespace Neural_OCR.Network
                 Console.WriteLine(GlobalError);
             }
         }
+
+
+        public void Test()
+        {
+            TeachingElement element3 = new TeachingElement
+            {
+                Inputs = new List<double>(new double[] { 1, 1 }),
+                ExpectedOutputs = new List<double>(new double[] { 0 })
+            };
+
+            List<double> outputs = _network.Test(element3);
+
+            Console.WriteLine("Output!");
+            outputs.ForEach(o => Console.WriteLine(0));
+        }
     }
 }
