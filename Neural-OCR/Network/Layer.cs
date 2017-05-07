@@ -84,16 +84,16 @@ namespace Neural_OCR.Network
             }
         }
         
-        public void Randomize(Random randomGenerator)
+        public void Randomize(Random randomGenerator, int numberOfInputs)
         {
-            _neurons.ForEach(n => n.RandomizeWeights(randomGenerator));
+            _neurons.ForEach(n => n.RandomizeWeights(randomGenerator, numberOfInputs));
         }
 
         public void SetNeuronsError(List<double> forwardNeuronsErrors, List<List<double>> forwardNeuronsWeights)
         {
             for (int i = 0; i < _neurons.Count - 1; i++)
             {
-                _neurons[i].SetError(forwardNeuronsErrors[i], forwardNeuronsWeights[i]);
+                _neurons[i].SetError(forwardNeuronsErrors, forwardNeuronsWeights[i]);
             }
         }
 

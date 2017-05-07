@@ -26,11 +26,11 @@ namespace Neural_OCR.Network
             return _output;
         }
 
-        public void RandomizeWeights(Random _random)
+        public void RandomizeWeights(Random _random, int numberOfInputs)
         {
-            for (int i = 0; i < Weights.Count - 1; i++)
+            for (int i = 0; i < numberOfInputs; i++)
             {
-                Weights[i] = _random.NextDouble();
+                Weights.Add(_random.NextDouble());
             }
 
             _biasWeight = _random.NextDouble();
@@ -46,11 +46,11 @@ namespace Neural_OCR.Network
             _biasWeight = _biasWeight + learningRate * Error * _biasValue;
         }
 
-        public void SetError(double forwardNeuronsError, List<double> forwardNeuronsWeights)
+        public void SetError(List<double> forwardNeuronsErrors, List<double> forwardNeuronsWeights)
         {
             for (int i = 0; i < forwardNeuronsWeights.Count - 1; i++)
             {
-                Error += forwardNeuronsError * forwardNeuronsWeights[i];
+                Error += forwardNeuronsErrors[i] * forwardNeuronsWeights[i];
             }
         }
 

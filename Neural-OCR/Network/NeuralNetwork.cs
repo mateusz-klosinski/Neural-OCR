@@ -48,9 +48,9 @@ namespace Neural_OCR.Network
         {
             _randomGenerator = new Random();
 
-            _inputLayer.Randomize(_randomGenerator);
-            _hiddenLayers.ForEach(hl => hl.Randomize(_randomGenerator));
-            _outputLayer.Randomize(_randomGenerator);
+            _inputLayer.Randomize(_randomGenerator, NumberOfInputs);
+            _hiddenLayers.ForEach(hl => hl.Randomize(_randomGenerator, NumberOfInputs));
+            _outputLayer.Randomize(_randomGenerator, NumberOfInputs);
         }
 
 
