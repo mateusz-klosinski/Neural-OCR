@@ -40,7 +40,7 @@ namespace Neural_OCR.Network
         {
             for (int i = 0; i < Weights.Count; i++)
             {
-                Weights[i] = Weights[i] + learningRate * Error * derivative(_output); 
+                Weights[i] = Weights[i] + learningRate * Error * derivative(_output) * Inputs[i];
             }
 
             _biasWeight = _biasWeight + learningRate * Error * _biasValue;
