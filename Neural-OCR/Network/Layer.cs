@@ -94,7 +94,7 @@ namespace Neural_OCR.Network
         {
             for (int i = 0; i < _neurons.Count; i++)
             {
-                var weightsOnUsedConnection = forwardNeuronsWeights.Select(weights => weights[i]).ToList(); // oby to działało xd
+                var weightsOnUsedConnection = forwardNeuronsWeights.Select(weights => weights[i]).ToList(); 
                 _neurons[i].SetError(forwardNeuronsErrors, weightsOnUsedConnection);
             }
         }
@@ -109,14 +109,14 @@ namespace Neural_OCR.Network
 
         public void AdjustNeuronsWeights(double learningRate)
         {
-            //_neurons.ForEach(n =>
-            //{
-            //    n.AdjustWeights(learningRate);
-            //});
+            _neurons.ForEach(n =>
+            {
+                n.AdjustWeights(learningRate);
+            });
 
 
 
-            //WTA
+            /*//WTA
             Neuron winner = null;
             double maxOutput = 0;
             _neurons.ForEach(n =>
@@ -128,7 +128,7 @@ namespace Neural_OCR.Network
                 }
             });
 
-            winner.AdjustWeights(learningRate);
+            winner.AdjustWeights(learningRate);*/
 
 
         }

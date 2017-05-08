@@ -1,6 +1,7 @@
 ﻿using Neural_OCR.Parser;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Neural_OCR.Network
 {
@@ -36,23 +37,23 @@ namespace Neural_OCR.Network
                 new List<TeachingElement> {
                     new TeachingElement
                     {
-                        Inputs = new List<double> {0,0},
-                        ExpectedOutputs = new List<double> { 0 }
+                        Inputs = new List<double> {-1,-1},
+                        ExpectedOutputs = new List<double> { -1 }
                     },
                     new TeachingElement
                     {
-                        Inputs = new List<double> {0,1},
+                        Inputs = new List<double> {-1,1},
                         ExpectedOutputs = new List<double> { 1 }
                     },
                     new TeachingElement
                     {
-                        Inputs = new List<double> {1,0},
+                        Inputs = new List<double> {1,-1},
                         ExpectedOutputs = new List<double> { 1 }
                     },
                     new TeachingElement
                     {
                         Inputs = new List<double> {1,1},
-                        ExpectedOutputs = new List<double> { 0 }
+                        ExpectedOutputs = new List<double> { -1 }
                     },
             });
         }
@@ -66,6 +67,7 @@ namespace Neural_OCR.Network
                 _elements.Reverse();
                 //if (i == 0 || i == numberOfEpochs - 1)
                 Console.WriteLine(GlobalError);
+                Debug.WriteLine(GlobalError);
             }
         }
 
@@ -77,11 +79,18 @@ namespace Neural_OCR.Network
             var output = _network.Test(element);
 
             Console.WriteLine("spodziewane wyniki");
+            Debug.WriteLine("spodziewane wyniki");
+
             element.ExpectedOutputs.ForEach(o => Console.Write(o + ", "));
+
             Console.WriteLine("");
+            Debug.WriteLine("");
             Console.WriteLine("Otrzymane wyniki");
-            output.ForEach(o => Console.Write(o + ", "));
+            Debug.WriteLine("Otrzymane wyniki");
+
+            output.ForEach(o => Debug.Write(o + ", "));
             Console.WriteLine("");
+            Debug.WriteLine("");
         }
     }
 }
