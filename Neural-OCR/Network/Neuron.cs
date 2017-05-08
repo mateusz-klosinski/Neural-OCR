@@ -38,10 +38,9 @@ namespace Neural_OCR.Network
 
         public void AdjustWeights(double learningRate)
         {
-            /*Tutaj był problem - w przypadku zer w Inputach w ogóle nie zmieniała się waga bo wszystko mnożone było przez zero*/
             for (int i = 0; i < Weights.Count; i++)
             {
-                Weights[i] = Weights[i] + learningRate * Error * Inputs[i]; 
+                Weights[i] = Weights[i] + learningRate * Error * derivative(_output); 
             }
 
             _biasWeight = _biasWeight + learningRate * Error * _biasValue;
@@ -52,7 +51,7 @@ namespace Neural_OCR.Network
             Error = 0;
             for (int i = 0; i < forwardNeuronsWeights.Count; i++)
             {
-                Error += forwardNeuronsErrors[i] * forwardNeuronsWeights[i] * derivative(_output);
+                Error += forwardNeuronsErrors[i] * forwardNeuronsWeights[i];
             }
         }
 
