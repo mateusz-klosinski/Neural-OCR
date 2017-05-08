@@ -66,7 +66,6 @@ namespace Neural_OCR.Network
                 _elements.ForEach(e => _network.Learn(e));
                 _elements.Reverse();
                 //if (i == 0 || i == numberOfEpochs - 1)
-                Console.WriteLine(GlobalError);
                 Debug.WriteLine(GlobalError);
             }
         }
@@ -78,18 +77,15 @@ namespace Neural_OCR.Network
 
             var output = _network.Test(element);
 
-            Console.WriteLine("spodziewane wyniki");
             Debug.WriteLine("spodziewane wyniki");
 
-            element.ExpectedOutputs.ForEach(o => Console.Write(o + ", "));
+            element.ExpectedOutputs.ForEach(o => Debug.Write(o + ", "));
 
-            Console.WriteLine("");
+            //Console.WriteLine("");
             Debug.WriteLine("");
-            Console.WriteLine("Otrzymane wyniki");
             Debug.WriteLine("Otrzymane wyniki");
 
             output.ForEach(o => Debug.Write(o + ", "));
-            Console.WriteLine("");
             Debug.WriteLine("");
         }
     }
