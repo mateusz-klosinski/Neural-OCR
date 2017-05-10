@@ -2,7 +2,9 @@
 using Emgu.CV.CvEnum;
 using Emgu.CV.Util;
 using Neural_OCR.Network;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace Neural_OCR.Parser
 {
@@ -64,7 +66,15 @@ namespace Neural_OCR.Parser
 
         private void extractFeaturesFromContour()
         {
+            _extractedFeatures.Clear();
 
+            HOGDescriptor descriptor = new HOGDescriptor(new Size(64, 128), new Size(64, 64), new Size(64, 64), new Size(32, 32));
+            CvInvoke.Resize(_processedImage, _processedImage, new Size(64, 128));
+            float[] result = descriptor.Compute(_processedImage);
+
+            double[] doubleResult = Array.ConvertAll(result, x => (double)(x / 0.5) * (1 + 1) - 1);
+
+            _extractedFeatures.AddRange(doubleResult);
         }
 
     }
