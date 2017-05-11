@@ -1,5 +1,4 @@
 ﻿using Neural_OCR.Parser;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -25,37 +24,131 @@ namespace Neural_OCR.Network
             _network = network;
             _elements = new List<TeachingElement>();
 
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    _elements.Add(_parser.CreateTeachingElementFromImage(
-            //        Path.GetFullPath($"Digits/{i}.jpg"),
-            //        i
-            //        ));
-            //}
-            //niech się uczy na razie bramki XOR xd
+
             _elements.AddRange(
-                new List<TeachingElement> {
+                new List<TeachingElement>
+                {
                     new TeachingElement
                     {
-                        Inputs = new List<double> {-1,-1},
-                        ExpectedOutputs = new List<double> { -1 }
+                        Inputs = new List<double>
+                        {
+                            1, 1 ,1,
+                            1, -1, 1,
+                            1, -1, 1,
+                            1, -1, 1,
+                            1, -1, 1
+                        },
+                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(0),
                     },
                     new TeachingElement
                     {
-                        Inputs = new List<double> {-1,1},
-                        ExpectedOutputs = new List<double> { 1 }
+                        Inputs = new List<double>
+                        {
+                            -1, -1, 1,
+                            -1, 1, 1,
+                            1, -1, 1,
+                            -1, -1, 1,
+                            -1, -1, 1
+                        },
+                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(1),
                     },
                     new TeachingElement
                     {
-                        Inputs = new List<double> {1,-1},
-                        ExpectedOutputs = new List<double> { 1 }
+                        Inputs = new List<double>
+                        {
+                            1, 1, 1,
+                            -1, -1, 1,
+                            -1, 1, -1,
+                            1, -1, -1,
+                            1, 1, 1,
+                        },
+                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(2),
                     },
                     new TeachingElement
                     {
-                        Inputs = new List<double> {1,1},
-                        ExpectedOutputs = new List<double> { -1 }
+                        Inputs = new List<double>
+                        {
+                            1, 1, 1,
+                            -1, -1, 1,
+                            1, 1, 1,
+                            -1, -1, 1,
+                            1, 1, 1,
+                        },
+                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(3),
                     },
-            });
+                    new TeachingElement
+                    {
+                        Inputs = new List<double>
+                        {
+                            1, -1, 1,
+                            1, -1, 1,
+                            1, 1, 1,
+                            -1, -1, 1,
+                            -1, -1, 1,
+                        },
+                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(4),
+                    },
+                    new TeachingElement
+                    {
+                        Inputs = new List<double>
+                        {
+                            1, 1, 1,
+                            1, -1 , -1,
+                            1, 1, 1,
+                            -1, -1, 1,
+                            1, 1, 1,
+                        },
+                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(5),
+                    },
+                    new TeachingElement
+                    {
+                        Inputs = new List<double>
+                        {
+                            1, 1, 1,
+                            1, -1, -1,
+                            1, 1, 1,
+                            1, -1, 1,
+                            1, 1, 1,
+                        },
+                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(6),
+                    },
+                    new TeachingElement
+                    {
+                        Inputs = new List<double>
+                        {
+                            1, 1, 1,
+                            -1, -1, 1,
+                            -1, 1 , -1,
+                            1, -1, -1,
+                            1, -1 , -1,
+                        },
+                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(7),
+                    },
+                    new TeachingElement
+                    {
+                        Inputs = new List<double>
+                        {
+                            1, 1, 1,
+                            1, -1, 1,
+                            1, 1, 1,
+                            1, -1, 1,
+                            1, 1, 1,
+                        },
+                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(8),
+                    },
+                    new TeachingElement
+                    {
+                        Inputs = new List<double>
+                        {
+                            1, 1, 1,
+                            1, -1, 1,
+                            1, 1, 1,
+                            -1, -1, 1,
+                            1, 1, 1,
+                        },
+                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(9),
+                    }
+                });
         }
 
 
@@ -73,7 +166,7 @@ namespace Neural_OCR.Network
 
         public void Test()
         {
-            var element = _elements[2];
+            var element = _elements[5];
 
             var output = _network.Test(element);
 

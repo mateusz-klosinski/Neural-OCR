@@ -11,12 +11,12 @@ namespace Neural_OCR
         public MainForm()
         {
             InitializeComponent();
-            _teacher = new Teacher(new NeuralNetwork(2, 1, 1));
+            _teacher = new Teacher(new NeuralNetwork(15, 10, 1));
         }
 
         private void buttonTeachNetwork_Click(object sender, System.EventArgs e)
         {
-            _teacher.Learn(20000);
+            _teacher.Learn(2000);
             _teacher.Test();
         }
     }
