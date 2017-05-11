@@ -24,7 +24,7 @@ namespace Neural_OCR.Network
         {
             NumberOfInputs = numberOfInputs;
             NumberOfOutputs = numberOfOutputs;
-            NumberOfHiddenLayers = PassOrLimitToMax(numberOfHiddenLayers, 3); 
+            NumberOfHiddenLayers = PassOrLimitToMax(numberOfHiddenLayers, 3);
             NumberOfNeuronsInHiddenLayer = numberOfNeuronsInHiddenLayer;
 
             initializeLayers();
@@ -38,7 +38,7 @@ namespace Neural_OCR.Network
 
         private void initializeLayers()
         {
-            _inputLayer = new Layer(NumberOfInputs);
+            _inputLayer = new Layer(NumberOfInputs - 45);
             _outputLayer = new Layer(NumberOfOutputs);
             _hiddenLayers = new List<Layer>();
 

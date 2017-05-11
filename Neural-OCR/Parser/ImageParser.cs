@@ -2,7 +2,6 @@
 using Emgu.CV.CvEnum;
 using Emgu.CV.Util;
 using Neural_OCR.Network;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -13,29 +12,30 @@ namespace Neural_OCR.Parser
 
         private Mat _processedImage;
         private VectorOfPoint _contour;
-        private List<double> _extractedFeatures;
+        private List<double> _pixelValues;
 
 
 
         public ImageParser()
         {
-            _extractedFeatures = new List<double>();
+            _pixelValues = new List<double>();
         }
 
 
 
         public TeachingElement CreateTeachingElementFromImage(string path, int expectedDigit)
         {
-            _extractedFeatures.Clear();
+            _pixelValues.Clear();
 
             loadImageFromFile(path);
             preprocessImage();
-            findContour();
-            extractFeaturesFromContour();
+            resizeImage();
+            addPixelValues();
+
 
             return new TeachingElement
             {
-                Inputs = _extractedFeatures,
+                Inputs = _pixelValues,
                 ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(expectedDigit)
             };
         }
@@ -50,31 +50,37 @@ namespace Neural_OCR.Parser
         private void preprocessImage()
         {
             CvInvoke.Threshold(_processedImage, _processedImage, 100, 255, ThresholdType.Binary);
-            CvInvoke.Canny(_processedImage, _processedImage, 50, 100);
+        }
+
+        private void resizeImage()
+        {
+            CvInvoke.Resize(_processedImage, _processedImage, new Size(7, 10));
+            CvInvoke.Threshold(_processedImage, _processedImage, 100, 255, ThresholdType.Binary);
         }
 
 
-        private void findContour()
+        private void addPixelValues()
         {
-            VectorOfVectorOfPoint contours = new VectorOfVectorOfPoint();
+            double value = 0;
 
-            CvInvoke.FindContours(_processedImage, contours, null, RetrType.List, ChainApproxMethod.ChainApproxSimple);
-            _contour = contours[contours.Size - 1];
-        }
+            for (int i = 0; i < _processedImage.Height; i++)
+            {
+                for (int j = 0; j < _processedImage.Width; j++)
+                {
+                    value = _processedImage.Bitmap.GetPixel(j, i).R;
 
-
-
-        private void extractFeaturesFromContour()
-        {
-            _extractedFeatures.Clear();
-
-            HOGDescriptor descriptor = new HOGDescriptor(new Size(64, 128), new Size(64, 64), new Size(64, 64), new Size(32, 32));
-            CvInvoke.Resize(_processedImage, _processedImage, new Size(64, 128));
-            float[] result = descriptor.Compute(_processedImage);
-
-            double[] doubleResult = Array.ConvertAll(result, x => (double)(x / 0.5) * (1 + 1) - 1);
-
-            _extractedFeatures.AddRange(doubleResult);
+                    if (value > 100)
+                    {
+                        value = 1;
+                    }
+                    else
+                    {
+                        value = -1;
+                    }
+                    _pixelValues.Add(value);
+                    value = 0;
+                }
+            }
         }
 
     }
