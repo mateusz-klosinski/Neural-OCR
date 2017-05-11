@@ -38,7 +38,7 @@ namespace Neural_OCR.Network
 
         private void initializeLayers()
         {
-            _inputLayer = new Layer(NumberOfInputs - 45);
+            _inputLayer = new Layer(NumberOfInputs);
             _outputLayer = new Layer(NumberOfOutputs);
             _hiddenLayers = new List<Layer>();
 
