@@ -19,6 +19,8 @@ namespace Neural_OCR.Network
             }
         }
 
+        public int NumberOfNeurons => _neurons.Count;
+
 
         public List<double> Outputs
         {

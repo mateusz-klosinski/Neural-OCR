@@ -14,22 +14,27 @@ namespace Neural_OCR.Network
         private double _learningRate = 0.1;
 
         public int NumberOfInputs { get; private set; }
+        public int NumberOfNeuronsInHiddenLayer { get; private set; }
         public int NumberOfOutputs { get; private set; }
         public int NumberOfHiddenLayers { get; private set; }
         public double GlobalError { get; private set; }
 
 
-        public NeuralNetwork(int numberOfInputs, int numberOfOutputs, int numberOfHiddenLayers)
+        public NeuralNetwork(int numberOfInputs, int numberOfOutputs, int numberOfHiddenLayers, int numberOfNeuronsInHiddenLayer)
         {
             NumberOfInputs = numberOfInputs;
             NumberOfOutputs = numberOfOutputs;
-            NumberOfHiddenLayers = numberOfHiddenLayers;
+            NumberOfHiddenLayers = PassOrLimitToMax(numberOfHiddenLayers, 3); 
+            NumberOfNeuronsInHiddenLayer = numberOfNeuronsInHiddenLayer;
 
             initializeLayers();
             randomize();
         }
 
-
+        private int PassOrLimitToMax(int value, int inclusiveMaximum)
+        {
+            return value > inclusiveMaximum ? inclusiveMaximum : value;
+        }
 
         private void initializeLayers()
         {
@@ -39,7 +44,7 @@ namespace Neural_OCR.Network
 
             for (int i = 0; i < NumberOfHiddenLayers; i++)
             {
-                _hiddenLayers.Add(new Layer(NumberOfInputs));
+                _hiddenLayers.Add(new Layer(NumberOfNeuronsInHiddenLayer));
             }
         }
 
@@ -49,8 +54,16 @@ namespace Neural_OCR.Network
             _randomGenerator = new Random();
 
             _inputLayer.Randomize(_randomGenerator, NumberOfInputs);
-            _hiddenLayers.ForEach(hl => hl.Randomize(_randomGenerator, NumberOfInputs));
-            _outputLayer.Randomize(_randomGenerator, NumberOfInputs);
+
+            var previousLayer = _inputLayer;
+
+            foreach (var hiddenLayer in _hiddenLayers)
+            {
+                hiddenLayer.Randomize(_randomGenerator, previousLayer.NumberOfNeurons);
+                previousLayer = hiddenLayer;
+            }
+
+            _outputLayer.Randomize(_randomGenerator, previousLayer.NumberOfNeurons);
         }
 
 
