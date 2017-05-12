@@ -1,4 +1,7 @@
-﻿using System.Drawing;
+﻿using AForge.Imaging.Filters;
+using System;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 
 namespace Neural_OCR
@@ -6,7 +9,11 @@ namespace Neural_OCR
     public partial class PaintBoard : Control
     {
         private Bitmap image;
-        private bool tracking;
+        private bool tracking = false;
+        private bool scaleImage = true;
+
+        private Shrink shrinkFilter = new Shrink(Color.FromArgb(255, 255, 255));
+        private ResizeNearestNeighbor resizeFilter = new ResizeNearestNeighbor(0, 0);
 
         public PaintBoard()
         {
@@ -56,7 +63,7 @@ namespace Neural_OCR
                 image.Dispose();
 
             // create new image
-            image = new Bitmap(width, height);
+            image = new Bitmap(width, height, PixelFormat.Format24bppRgb);
 
             // create graphics
             Graphics g = Graphics.FromImage(image);
@@ -81,6 +88,80 @@ namespace Neural_OCR
                 if (image == null)
                     ClearImage();
             }
+        }
+
+        public Bitmap GetImage()
+        {
+            return GetImage(true);
+        }
+        public Bitmap GetImage(bool invalidate)
+        {
+            if (image == null)
+                ClearImage();
+
+            // scale image
+            if (scaleImage)
+            {
+                // shrink image
+                Bitmap tempImage = shrinkFilter.Apply(image);
+
+                // image dimenstoin
+                int width = image.Width;
+                int height = image.Height;
+                // shrinked image dimension
+                int tw = tempImage.Width;
+                int th = tempImage.Height;
+                // resize factors
+                float fx = (float)width / (float)tw;
+                float fy = (float)height / (float)th;
+
+                if (fx > fy)
+                    fx = fy;
+                // set new size of shrinked image
+                int nw = (int)Math.Round(fx * tw);
+                int nh = (int)Math.Round(fy * th);
+                resizeFilter.NewWidth = nw;
+                resizeFilter.NewHeight = nh;
+
+                // resize image
+                Bitmap tempImage2 = resizeFilter.Apply(tempImage);
+
+                // 
+                Brush whiteBrush = new SolidBrush(Color.White);
+
+                // create graphics
+                Graphics g = Graphics.FromImage(image);
+
+                // fill rectangle
+                g.FillRectangle(whiteBrush, 0, 0, width, height);
+
+                int x = 0;
+                int y = 0;
+
+                if (nw > nh)
+                {
+                    y = (height - nh) / 2;
+                }
+                else
+                {
+                    x = (width - nw) / 2;
+                }
+
+                g.DrawImage(tempImage2, x, y, nw, nh);
+
+                g.Dispose();
+                whiteBrush.Dispose();
+
+                // release temp images
+                tempImage.Dispose();
+                tempImage2.Dispose();
+            }
+
+            // should we repaint the control
+            if (invalidate)
+                Invalidate();
+
+            return image;
         }
 
         private void PaintBoard_MouseUp(object sender, MouseEventArgs e)

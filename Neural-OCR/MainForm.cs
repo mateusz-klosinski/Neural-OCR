@@ -9,20 +9,19 @@ namespace Neural_OCR
     {
         private Teacher _teacher;
         private PointPairList errorListForChart;
-        private int _numberOfEpochs = 200;
+        private int _numberOfEpochs = 1000;
 
         public MainForm()
         {
             InitializeComponent();
             errorListForChart = initializeLearningChart();
 
-            _teacher = new Teacher(new NeuralNetwork(15, 10, 1, 10), errorListForChart);
+            _teacher = new Teacher(new NeuralNetwork(15, 10, 0, 10), errorListForChart);
         }
 
         private void buttonTeachNetwork_Click(object sender, System.EventArgs e)
         {
             _teacher.Learn(_numberOfEpochs);
-            _teacher.Test();
         }
 
         private PointPairList initializeLearningChart()
@@ -46,6 +45,16 @@ namespace Neural_OCR
         private void ButtonClearPaintBoard_Click(object sender, System.EventArgs e)
         {
             paintBoard1.ClearImage();
+        }
+
+        private void buttonScaleImage_Click(object sender, System.EventArgs e)
+        {
+            paintBoard1.GetImage();
+        }
+
+        private void buttonRecognize_Click(object sender, System.EventArgs e)
+        {
+            _teacher.Test(paintBoard1.GetImage());
         }
     }
 }

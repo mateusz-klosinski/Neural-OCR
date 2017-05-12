@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.buttonPickImage = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.learningChart = new ZedGraph.ZedGraphControl();
             this.labelError = new System.Windows.Forms.Label();
@@ -41,8 +40,9 @@
             this.label4 = new System.Windows.Forms.Label();
             this.textBoxResult = new System.Windows.Forms.TextBox();
             this.buttonRecognize = new System.Windows.Forms.Button();
-            this.paintBoard1 = new Neural_OCR.PaintBoard();
             this.ButtonClearPaintBoard = new System.Windows.Forms.Button();
+            this.buttonScaleImage = new System.Windows.Forms.Button();
+            this.paintBoard1 = new Neural_OCR.PaintBoard();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownEpochs)).BeginInit();
@@ -51,6 +51,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.ButtonClearPaintBoard);
+            this.groupBox1.Controls.Add(this.buttonScaleImage);
             this.groupBox1.Controls.Add(this.paintBoard1);
             this.groupBox1.Location = new System.Drawing.Point(14, 19);
             this.groupBox1.Name = "groupBox1";
@@ -59,24 +60,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Painting area";
             // 
-            // buttonPickImage
-            // 
-            this.buttonPickImage.Location = new System.Drawing.Point(236, 273);
-            this.buttonPickImage.Name = "buttonPickImage";
-            this.buttonPickImage.Size = new System.Drawing.Size(125, 23);
-            this.buttonPickImage.TabIndex = 1;
-            this.buttonPickImage.Text = "Pick an image";
-            this.buttonPickImage.UseVisualStyleBackColor = true;
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.learningChart);
+            this.groupBox2.Controls.Add(this.textBoxResult);
+            this.groupBox2.Controls.Add(this.buttonRecognize);
+            this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.labelError);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.numericUpDownEpochs);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.buttonTeachNetwork);
-            this.groupBox2.Controls.Add(this.buttonPickImage);
             this.groupBox2.Controls.Add(this.groupBox1);
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
@@ -87,7 +81,7 @@
             // 
             // learningChart
             // 
-            this.learningChart.Location = new System.Drawing.Point(366, 19);
+            this.learningChart.Location = new System.Drawing.Point(389, 54);
             this.learningChart.Name = "learningChart";
             this.learningChart.ScrollGrace = 0D;
             this.learningChart.ScrollMaxX = 0D;
@@ -147,7 +141,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(389, 254);
+            this.label4.Location = new System.Drawing.Point(143, 320);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(93, 13);
             this.label4.TabIndex = 3;
@@ -156,46 +150,54 @@
             // textBoxResult
             // 
             this.textBoxResult.Enabled = false;
-            this.textBoxResult.Location = new System.Drawing.Point(485, 247);
+            this.textBoxResult.Location = new System.Drawing.Point(242, 315);
             this.textBoxResult.Name = "textBoxResult";
             this.textBoxResult.Size = new System.Drawing.Size(27, 20);
             this.textBoxResult.TabIndex = 4;
             // 
             // buttonRecognize
             // 
-            this.buttonRecognize.Location = new System.Drawing.Point(389, 285);
+            this.buttonRecognize.Location = new System.Drawing.Point(14, 315);
             this.buttonRecognize.Name = "buttonRecognize";
             this.buttonRecognize.Size = new System.Drawing.Size(123, 23);
             this.buttonRecognize.TabIndex = 5;
             this.buttonRecognize.Text = "Recognize";
             this.buttonRecognize.UseVisualStyleBackColor = true;
-            // 
-            // paintBoard1
-            // 
-            this.paintBoard1.Location = new System.Drawing.Point(23, 19);
-            this.paintBoard1.Name = "paintBoard1";
-            this.paintBoard1.Size = new System.Drawing.Size(187, 217);
-            this.paintBoard1.TabIndex = 0;
-            this.paintBoard1.Text = "paintBoard1";
+            this.buttonRecognize.Click += new System.EventHandler(this.buttonRecognize_Click);
             // 
             // ButtonClearPaintBoard
             // 
-            this.ButtonClearPaintBoard.Location = new System.Drawing.Point(23, 243);
+            this.ButtonClearPaintBoard.Location = new System.Drawing.Point(6, 242);
             this.ButtonClearPaintBoard.Name = "ButtonClearPaintBoard";
-            this.ButtonClearPaintBoard.Size = new System.Drawing.Size(100, 28);
+            this.ButtonClearPaintBoard.Size = new System.Drawing.Size(82, 28);
             this.ButtonClearPaintBoard.TabIndex = 1;
             this.ButtonClearPaintBoard.Text = "Clear";
             this.ButtonClearPaintBoard.UseVisualStyleBackColor = true;
             this.ButtonClearPaintBoard.Click += new System.EventHandler(this.ButtonClearPaintBoard_Click);
+            // 
+            // buttonScaleImage
+            // 
+            this.buttonScaleImage.Location = new System.Drawing.Point(123, 242);
+            this.buttonScaleImage.Name = "buttonScaleImage";
+            this.buttonScaleImage.Size = new System.Drawing.Size(87, 27);
+            this.buttonScaleImage.TabIndex = 1;
+            this.buttonScaleImage.Text = "Scale";
+            this.buttonScaleImage.UseVisualStyleBackColor = true;
+            this.buttonScaleImage.Click += new System.EventHandler(this.buttonScaleImage_Click);
+            // 
+            // paintBoard1
+            // 
+            this.paintBoard1.Location = new System.Drawing.Point(6, 19);
+            this.paintBoard1.Name = "paintBoard1";
+            this.paintBoard1.Size = new System.Drawing.Size(204, 217);
+            this.paintBoard1.TabIndex = 0;
+            this.paintBoard1.Text = "paintBoard1";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(929, 364);
-            this.Controls.Add(this.buttonRecognize);
-            this.Controls.Add(this.textBoxResult);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.groupBox2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -207,14 +209,12 @@
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownEpochs)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button buttonPickImage;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonTeachNetwork;
@@ -227,6 +227,7 @@
         private ZedGraph.ZedGraphControl learningChart;
         private PaintBoard paintBoard1;
         private System.Windows.Forms.Button ButtonClearPaintBoard;
+        private System.Windows.Forms.Button buttonScaleImage;
     }
 }
 
