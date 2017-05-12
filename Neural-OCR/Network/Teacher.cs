@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using ZedGraph;
+using System.IO;
 
 namespace Neural_OCR.Network
 {
@@ -27,131 +28,139 @@ namespace Neural_OCR.Network
             _elements = new List<TeachingElement>();
             _errorListForChart = errorListForChart;
 
+            for (int i = 0; i < 10; i++)
+            {
+                _elements.Add(_parser.CreateTeachingElementFromImage(
+                    Path.GetFullPath($"Digits/{i}.jpg"),
+                    i
+                    ));
+            }
 
-            _elements.AddRange(
-                new List<TeachingElement>
-                {
-                    new TeachingElement
-                    {
-                        Inputs = new List<double>
-                        {
-                            1, 1 ,1,
-                            1, -1, 1,
-                            1, -1, 1,
-                            1, -1, 1,
-                            1, -1, 1
-                        },
-                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(0),
-                    },
-                    new TeachingElement
-                    {
-                        Inputs = new List<double>
-                        {
-                            -1, -1, 1,
-                            -1, 1, 1,
-                            1, -1, 1,
-                            -1, -1, 1,
-                            -1, -1, 1
-                        },
-                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(1),
-                    },
-                    new TeachingElement
-                    {
-                        Inputs = new List<double>
-                        {
-                            1, 1, 1,
-                            -1, -1, 1,
-                            -1, 1, -1,
-                            1, -1, -1,
-                            1, 1, 1,
-                        },
-                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(2),
-                    },
-                    new TeachingElement
-                    {
-                        Inputs = new List<double>
-                        {
-                            1, 1, 1,
-                            -1, -1, 1,
-                            1, 1, 1,
-                            -1, -1, 1,
-                            1, 1, 1,
-                        },
-                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(3),
-                    },
-                    new TeachingElement
-                    {
-                        Inputs = new List<double>
-                        {
-                            1, -1, 1,
-                            1, -1, 1,
-                            1, 1, 1,
-                            -1, -1, 1,
-                            -1, -1, 1,
-                        },
-                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(4),
-                    },
-                    new TeachingElement
-                    {
-                        Inputs = new List<double>
-                        {
-                            1, 1, 1,
-                            1, -1 , -1,
-                            1, 1, 1,
-                            -1, -1, 1,
-                            1, 1, 1,
-                        },
-                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(5),
-                    },
-                    new TeachingElement
-                    {
-                        Inputs = new List<double>
-                        {
-                            1, 1, 1,
-                            1, -1, -1,
-                            1, 1, 1,
-                            1, -1, 1,
-                            1, 1, 1,
-                        },
-                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(6),
-                    },
-                    new TeachingElement
-                    {
-                        Inputs = new List<double>
-                        {
-                            1, 1, 1,
-                            -1, -1, 1,
-                            -1, 1 , -1,
-                            1, -1, -1,
-                            1, -1 , -1,
-                        },
-                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(7),
-                    },
-                    new TeachingElement
-                    {
-                        Inputs = new List<double>
-                        {
-                            1, 1, 1,
-                            1, -1, 1,
-                            1, 1, 1,
-                            1, -1, 1,
-                            1, 1, 1,
-                        },
-                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(8),
-                    },
-                    new TeachingElement
-                    {
-                        Inputs = new List<double>
-                        {
-                            1, 1, 1,
-                            1, -1, 1,
-                            1, 1, 1,
-                            -1, -1, 1,
-                            1, 1, 1,
-                        },
-                        ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(9),
-                    }
-                });
+
+            //_elements.AddRange(
+            //    new List<TeachingElement>
+            //    {
+            //        new TeachingElement
+            //        {
+            //            Inputs = new List<double>
+            //            {
+            //                1, 1 ,1,
+            //                1, -1, 1,
+            //                1, -1, 1,
+            //                1, -1, 1,
+            //                1, -1, 1
+            //            },
+            //            ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(0),
+            //        },
+            //        new TeachingElement
+            //        {
+            //            Inputs = new List<double>
+            //            {
+            //                -1, -1, 1,
+            //                -1, 1, 1,
+            //                1, -1, 1,
+            //                -1, -1, 1,
+            //                -1, -1, 1
+            //            },
+            //            ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(1),
+            //        },
+            //        new TeachingElement
+            //        {
+            //            Inputs = new List<double>
+            //            {
+            //                1, 1, 1,
+            //                -1, -1, 1,
+            //                -1, 1, -1,
+            //                1, -1, -1,
+            //                1, 1, 1,
+            //            },
+            //            ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(2),
+            //        },
+            //        new TeachingElement
+            //        {
+            //            Inputs = new List<double>
+            //            {
+            //                1, 1, 1,
+            //                -1, -1, 1,
+            //                1, 1, 1,
+            //                -1, -1, 1,
+            //                1, 1, 1,
+            //            },
+            //            ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(3),
+            //        },
+            //        new TeachingElement
+            //        {
+            //            Inputs = new List<double>
+            //            {
+            //                1, -1, 1,
+            //                1, -1, 1,
+            //                1, 1, 1,
+            //                -1, -1, 1,
+            //                -1, -1, 1,
+            //            },
+            //            ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(4),
+            //        },
+            //        new TeachingElement
+            //        {
+            //            Inputs = new List<double>
+            //            {
+            //                1, 1, 1,
+            //                1, -1 , -1,
+            //                1, 1, 1,
+            //                -1, -1, 1,
+            //                1, 1, 1,
+            //            },
+            //            ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(5),
+            //        },
+            //        new TeachingElement
+            //        {
+            //            Inputs = new List<double>
+            //            {
+            //                1, 1, 1,
+            //                1, -1, -1,
+            //                1, 1, 1,
+            //                1, -1, 1,
+            //                1, 1, 1,
+            //            },
+            //            ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(6),
+            //        },
+            //        new TeachingElement
+            //        {
+            //            Inputs = new List<double>
+            //            {
+            //                1, 1, 1,
+            //                -1, -1, 1,
+            //                -1, 1 , -1,
+            //                1, -1, -1,
+            //                1, -1 , -1,
+            //            },
+            //            ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(7),
+            //        },
+            //        new TeachingElement
+            //        {
+            //            Inputs = new List<double>
+            //            {
+            //                1, 1, 1,
+            //                1, -1, 1,
+            //                1, 1, 1,
+            //                1, -1, 1,
+            //                1, 1, 1,
+            //            },
+            //            ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(8),
+            //        },
+            //        new TeachingElement
+            //        {
+            //            Inputs = new List<double>
+            //            {
+            //                1, 1, 1,
+            //                1, -1, 1,
+            //                1, 1, 1,
+            //                -1, -1, 1,
+            //                1, 1, 1,
+            //            },
+            //            ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(9),
+            //        }
+            //    });
         }
 
 
