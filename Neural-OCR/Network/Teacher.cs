@@ -1,6 +1,7 @@
 ﻿using Neural_OCR.Parser;
 using System.Collections.Generic;
 using System.Diagnostics;
+using ZedGraph;
 
 namespace Neural_OCR.Network
 {
@@ -9,6 +10,7 @@ namespace Neural_OCR.Network
         private ImageParser _parser;
         private NeuralNetwork _network;
         private List<TeachingElement> _elements;
+        private PointPairList _errorListForChart;
 
         public double GlobalError
         {
@@ -18,11 +20,12 @@ namespace Neural_OCR.Network
             }
         }
 
-        public Teacher(NeuralNetwork network)
+        public Teacher(NeuralNetwork network, PointPairList errorListForChart)
         {
             _parser = new ImageParser();
             _network = network;
             _elements = new List<TeachingElement>();
+            _errorListForChart = errorListForChart;
 
 
             _elements.AddRange(
@@ -160,6 +163,7 @@ namespace Neural_OCR.Network
                 _elements.Reverse();
                 //if (i == 0 || i == numberOfEpochs - 1)
                 Debug.WriteLine(GlobalError);
+                _errorListForChart.Add(i, GlobalError);
             }
         }
 

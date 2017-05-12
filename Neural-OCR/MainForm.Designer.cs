@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.buttonPickImage = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.learningChart = new ZedGraph.ZedGraphControl();
             this.labelError = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.numericUpDownEpochs = new System.Windows.Forms.NumericUpDown();
@@ -63,6 +65,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.learningChart);
             this.groupBox2.Controls.Add(this.labelError);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.numericUpDownEpochs);
@@ -72,16 +75,30 @@
             this.groupBox2.Controls.Add(this.groupBox1);
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(371, 302);
+            this.groupBox2.Size = new System.Drawing.Size(905, 344);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Controls";
+            // 
+            // learningChart
+            // 
+            this.learningChart.Location = new System.Drawing.Point(366, 19);
+            this.learningChart.Name = "learningChart";
+            this.learningChart.ScrollGrace = 0D;
+            this.learningChart.ScrollMaxX = 0D;
+            this.learningChart.ScrollMaxY = 0D;
+            this.learningChart.ScrollMaxY2 = 0D;
+            this.learningChart.ScrollMinX = 0D;
+            this.learningChart.ScrollMinY = 0D;
+            this.learningChart.ScrollMinY2 = 0D;
+            this.learningChart.Size = new System.Drawing.Size(516, 210);
+            this.learningChart.TabIndex = 8;
             // 
             // labelError
             // 
             this.labelError.AutoSize = true;
             this.labelError.ForeColor = System.Drawing.Color.Green;
-            this.labelError.Location = new System.Drawing.Point(236, 139);
+            this.labelError.Location = new System.Drawing.Point(236, 144);
             this.labelError.Name = "labelError";
             this.labelError.Size = new System.Drawing.Size(52, 13);
             this.labelError.TabIndex = 6;
@@ -90,7 +107,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(236, 126);
+            this.label2.Location = new System.Drawing.Point(236, 131);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 13);
             this.label2.TabIndex = 5;
@@ -98,7 +115,7 @@
             // 
             // numericUpDownEpochs
             // 
-            this.numericUpDownEpochs.Location = new System.Drawing.Point(239, 70);
+            this.numericUpDownEpochs.Location = new System.Drawing.Point(236, 70);
             this.numericUpDownEpochs.Name = "numericUpDownEpochs";
             this.numericUpDownEpochs.Size = new System.Drawing.Size(122, 20);
             this.numericUpDownEpochs.TabIndex = 4;
@@ -106,7 +123,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(236, 51);
+            this.label1.Location = new System.Drawing.Point(233, 54);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(94, 13);
             this.label1.TabIndex = 3;
@@ -152,7 +169,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(526, 326);
+            this.ClientSize = new System.Drawing.Size(929, 364);
             this.Controls.Add(this.buttonRecognize);
             this.Controls.Add(this.textBoxResult);
             this.Controls.Add(this.label4);
@@ -183,6 +200,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBoxResult;
         private System.Windows.Forms.Button buttonRecognize;
+        private ZedGraph.ZedGraphControl learningChart;
     }
 }
 
