@@ -41,12 +41,17 @@
             this.label4 = new System.Windows.Forms.Label();
             this.textBoxResult = new System.Windows.Forms.TextBox();
             this.buttonRecognize = new System.Windows.Forms.Button();
+            this.paintBoard1 = new Neural_OCR.PaintBoard();
+            this.ButtonClearPaintBoard = new System.Windows.Forms.Button();
+            this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownEpochs)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.ButtonClearPaintBoard);
+            this.groupBox1.Controls.Add(this.paintBoard1);
             this.groupBox1.Location = new System.Drawing.Point(14, 19);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(216, 277);
@@ -165,6 +170,24 @@
             this.buttonRecognize.Text = "Recognize";
             this.buttonRecognize.UseVisualStyleBackColor = true;
             // 
+            // paintBoard1
+            // 
+            this.paintBoard1.Location = new System.Drawing.Point(23, 19);
+            this.paintBoard1.Name = "paintBoard1";
+            this.paintBoard1.Size = new System.Drawing.Size(187, 217);
+            this.paintBoard1.TabIndex = 0;
+            this.paintBoard1.Text = "paintBoard1";
+            // 
+            // ButtonClearPaintBoard
+            // 
+            this.ButtonClearPaintBoard.Location = new System.Drawing.Point(23, 243);
+            this.ButtonClearPaintBoard.Name = "ButtonClearPaintBoard";
+            this.ButtonClearPaintBoard.Size = new System.Drawing.Size(100, 28);
+            this.ButtonClearPaintBoard.TabIndex = 1;
+            this.ButtonClearPaintBoard.Text = "Clear";
+            this.ButtonClearPaintBoard.UseVisualStyleBackColor = true;
+            this.ButtonClearPaintBoard.Click += new System.EventHandler(this.ButtonClearPaintBoard_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -179,6 +202,7 @@
             this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Neural-OCR";
+            this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownEpochs)).EndInit();
@@ -201,6 +225,8 @@
         private System.Windows.Forms.TextBox textBoxResult;
         private System.Windows.Forms.Button buttonRecognize;
         private ZedGraph.ZedGraphControl learningChart;
+        private PaintBoard paintBoard1;
+        private System.Windows.Forms.Button ButtonClearPaintBoard;
     }
 }
 

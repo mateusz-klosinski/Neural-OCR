@@ -17,7 +17,7 @@
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -25,7 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -82,6 +82,12 @@
   <ItemGroup>
     <Compile Include="Network\Layer.cs" />
     <Compile Include="Network\TeachingElement.cs" />
+    <Compile Include="PaintBoard.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PaintBoard.Designer.cs">
+      <DependentUpon>PaintBoard.cs</DependentUpon>
+    </Compile>
     <Compile Include="Parser\ExpectedOutputFactory.cs" />
     <Compile Include="Parser\ImageParser.cs" />
     <Compile Include="MainForm.cs">
@@ -97,6 +103,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PaintBoard.resx">
+      <DependentUpon>PaintBoard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

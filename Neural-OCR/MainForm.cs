@@ -1,5 +1,5 @@
-﻿using System.Drawing;
-using Neural_OCR.Network;
+﻿using Neural_OCR.Network;
+using System.Drawing;
 using System.Windows.Forms;
 using ZedGraph;
 
@@ -28,7 +28,7 @@ namespace Neural_OCR
         private PointPairList initializeLearningChart()
         {
             GraphPane graphPane = learningChart.GraphPane;
-            
+
             graphPane.XAxis.Title.Text = "Epochs";
             graphPane.YAxis.Title.Text = "Error";
 
@@ -41,6 +41,11 @@ namespace Neural_OCR
             graphPane.CurveList.Add(curve);
 
             return errorListForChart;
+        }
+
+        private void ButtonClearPaintBoard_Click(object sender, System.EventArgs e)
+        {
+            paintBoard1.ClearImage();
         }
     }
 }
