@@ -11,8 +11,8 @@ namespace Neural_OCR.Network
 
         private Random _randomGenerator;
 
-        private double _learningRate = 0.2;
-        private double momentum = 0.9;
+        public double _learningRate { get; set; } = 0.1;
+        public double momentum { get; set; } = 0.4;
 
         public int NumberOfInputs { get; private set; }
         public int NumberOfNeuronsInHiddenLayer { get; private set; }
@@ -21,15 +21,30 @@ namespace Neural_OCR.Network
         public double GlobalError { get; private set; }
 
 
-        public NeuralNetwork(int numberOfInputs, int numberOfOutputs, int numberOfHiddenLayers, int numberOfNeuronsInHiddenLayer)
-        {
-            NumberOfInputs = numberOfInputs;
-            NumberOfOutputs = numberOfOutputs;
-            NumberOfHiddenLayers = PassOrLimitToMax(numberOfHiddenLayers, 3);
-            NumberOfNeuronsInHiddenLayer = numberOfNeuronsInHiddenLayer;
 
-            initializeLayers();
-            randomize();
+
+
+        public void InitializeInputLayer(int numberOfInputs, int numberOfNeurons)
+        {
+            _inputLayer = new Layer(numberOfNeurons);
+            NumberOfInputs = numberOfInputs;
+        }
+
+
+
+
+        public void InitializeHiddenLayers(int numberOfLayers, int numberOfNeuronsInLayer)
+        {
+            _hiddenLayers = new List<Layer>();
+
+            var limitedNumberOfLayers = PassOrLimitToMax(numberOfLayers, 3);
+
+            for (int i = 0; i < limitedNumberOfLayers; i++)
+            {
+                _hiddenLayers.Add(new Layer(numberOfNeuronsInLayer));
+            }
+
+            NumberOfHiddenLayers = numberOfLayers;
         }
 
         private int PassOrLimitToMax(int value, int inclusiveMaximum)
@@ -37,20 +52,20 @@ namespace Neural_OCR.Network
             return value > inclusiveMaximum ? inclusiveMaximum : value;
         }
 
-        private void initializeLayers()
-        {
-            _inputLayer = new Layer(NumberOfInputs);
-            _outputLayer = new Layer(NumberOfOutputs);
-            _hiddenLayers = new List<Layer>();
 
-            for (int i = 0; i < NumberOfHiddenLayers; i++)
-            {
-                _hiddenLayers.Add(new Layer(NumberOfNeuronsInHiddenLayer));
-            }
+
+
+        public void InitializeOutputLayer(int numberOfOutputs)
+        {
+            _outputLayer = new Layer(numberOfOutputs);
+            NumberOfOutputs = numberOfOutputs;
         }
 
 
-        private void randomize()
+
+
+
+        public void Randomize()
         {
             _randomGenerator = new Random();
 
@@ -69,11 +84,16 @@ namespace Neural_OCR.Network
 
 
 
+
+
         public List<double> Test(TeachingElement element)
         {
             List<double> outputResponse = forwardPropagate(element);
             return outputResponse;
         }
+
+
+
 
 
         public void Learn(TeachingElement element)

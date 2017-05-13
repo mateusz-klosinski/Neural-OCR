@@ -107,9 +107,8 @@ namespace Neural_OCR.Parser
 
         private void resizeImage()
         {
-            CvInvoke.Resize(_processedImage, _processedImage, new Size(7, 10), 0, 0, Inter.Linear);
+            CvInvoke.Resize(_processedImage, _processedImage, new Size(3, 5), 0, 0, Inter.Area);
             removeBlankPlaces();
-            Emgu.CV.UI.ImageViewer.Show(_processedImage);
         }
 
 
