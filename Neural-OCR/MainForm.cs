@@ -16,7 +16,7 @@ namespace Neural_OCR
             InitializeComponent();
             errorListForChart = initializeLearningChart();
 
-            _teacher = new Teacher(new NeuralNetwork(70, 10, 1, 10), errorListForChart);
+            _teacher = new Teacher(new NeuralNetwork(15, 10, 1, 10), errorListForChart);
         }
 
         private void buttonTeachNetwork_Click(object sender, System.EventArgs e)

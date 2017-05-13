@@ -107,8 +107,9 @@ namespace Neural_OCR.Parser
 
         private void resizeImage()
         {
-            CvInvoke.Resize(_processedImage, _processedImage, new Size(7, 10), 0, 0, Inter.Nearest);
+            CvInvoke.Resize(_processedImage, _processedImage, new Size(7, 10), 0, 0, Inter.Linear);
             removeBlankPlaces();
+            Emgu.CV.UI.ImageViewer.Show(_processedImage);
         }
 
 
@@ -120,7 +121,7 @@ namespace Neural_OCR.Parser
             {
                 for (int j = 0; j < _processedImage.Bitmap.Width; j++)
                 {
-                    value = _processedImage.Bitmap.GetPixel(j, i).R;
+                    value = _processedImage.Bitmap.GetPixel(j, i).B;
 
                     if (value > 200)
                     {
