@@ -9,14 +9,14 @@ namespace Neural_OCR
     {
         private Teacher _teacher;
         private PointPairList errorListForChart;
-        private int _numberOfEpochs = 1000;
+        private int _numberOfEpochs = 2000;
 
         public MainForm()
         {
             InitializeComponent();
             errorListForChart = initializeLearningChart();
 
-            _teacher = new Teacher(new NeuralNetwork(15, 10, 0, 10), errorListForChart);
+            _teacher = new Teacher(new NeuralNetwork(70, 10, 1, 10), errorListForChart);
         }
 
         private void buttonTeachNetwork_Click(object sender, System.EventArgs e)

@@ -171,7 +171,6 @@ namespace Neural_OCR.Network
             {
                 _elements.ForEach(e => _network.Learn(e));
                 _elements.Reverse();
-                //if (i == 0 || i == numberOfEpochs - 1)
                 Debug.WriteLine(GlobalError);
                 _errorListForChart.Add(i, GlobalError);
             }
@@ -188,7 +187,7 @@ namespace Neural_OCR.Network
 
             element.ExpectedOutputs.ForEach(o => Debug.Write(o + ", "));
 
-            //Console.WriteLine("");
+
             Debug.WriteLine("");
             Debug.WriteLine("Otrzymane wyniki");
 

@@ -107,7 +107,7 @@ namespace Neural_OCR.Parser
 
         private void resizeImage()
         {
-            CvInvoke.Resize(_processedImage, _processedImage, new Size(3, 5), 0, 0, Inter.Area);
+            CvInvoke.Resize(_processedImage, _processedImage, new Size(7, 10), 0, 0, Inter.Nearest);
             removeBlankPlaces();
         }
 
@@ -116,9 +116,9 @@ namespace Neural_OCR.Parser
         {
             double value = 0;
 
-            for (int i = 0; i < _processedImage.Height; i++)
+            for (int i = 0; i < _processedImage.Bitmap.Height; i++)
             {
-                for (int j = 0; j < _processedImage.Width; j++)
+                for (int j = 0; j < _processedImage.Bitmap.Width; j++)
                 {
                     value = _processedImage.Bitmap.GetPixel(j, i).R;
 

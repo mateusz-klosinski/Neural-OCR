@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Neural_OCR.Network
 {
@@ -12,12 +11,14 @@ namespace Neural_OCR.Network
 
         public double Error;
 
+        public List<double> PreviousWeights;
         public List<double> Weights;
         public List<double> Inputs;
 
         public Neuron()
         {
             Weights = new List<double>();
+            PreviousWeights = new List<double>();
         }
 
         public double Output()
@@ -30,7 +31,9 @@ namespace Neural_OCR.Network
         {
             for (int i = 0; i < numberOfInputs; i++)
             {
-                Weights.Add(_random.NextDouble());
+                double randomValue = _random.NextDouble();
+                Weights.Add(randomValue);
+                PreviousWeights.Add(randomValue);
             }
 
             _biasWeight = _random.NextDouble();
@@ -44,6 +47,20 @@ namespace Neural_OCR.Network
             }
 
             _biasWeight = _biasWeight + learningRate * Error * _biasValue;
+        }
+
+        public void AdjustWeights(double learningRate, double momentum)
+        {
+            var tempWeights = new List<double>(Weights);
+
+            for (int i = 0; i < Weights.Count; i++)
+            {
+                Weights[i] = Weights[i] + learningRate * Error * Inputs[i] - momentum * (Weights[i] - PreviousWeights[i]);
+            }
+
+            _biasWeight = _biasWeight + learningRate * Error * _biasValue;
+
+            PreviousWeights = tempWeights;
         }
 
         public void SetError(List<double> forwardNeuronsErrors, List<double> forwardNeuronsWeights)

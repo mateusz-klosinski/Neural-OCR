@@ -12,6 +12,7 @@ namespace Neural_OCR.Network
         private Random _randomGenerator;
 
         private double _learningRate = 0.1;
+        private double momentum = 0.7;
 
         public int NumberOfInputs { get; private set; }
         public int NumberOfNeuronsInHiddenLayer { get; private set; }
@@ -149,9 +150,9 @@ namespace Neural_OCR.Network
 
         private void adjustWeights()
         {
-            _inputLayer.AdjustNeuronsWeights(_learningRate);
-            _hiddenLayers.ForEach(hl => hl.AdjustNeuronsWeights(_learningRate));
-            _outputLayer.AdjustNeuronsWeights(_learningRate);
+            _inputLayer.AdjustNeuronsWeights(_learningRate, momentum);
+            _hiddenLayers.ForEach(hl => hl.AdjustNeuronsWeights(_learningRate, momentum));
+            _outputLayer.AdjustNeuronsWeights(_learningRate, momentum);
         }
     }
 }

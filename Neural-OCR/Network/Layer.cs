@@ -96,7 +96,7 @@ namespace Neural_OCR.Network
         {
             for (int i = 0; i < _neurons.Count; i++)
             {
-                var weightsOnUsedConnection = forwardNeuronsWeights.Select(weights => weights[i]).ToList(); 
+                var weightsOnUsedConnection = forwardNeuronsWeights.Select(weights => weights[i]).ToList();
                 _neurons[i].SetError(forwardNeuronsErrors, weightsOnUsedConnection);
             }
         }
@@ -133,6 +133,14 @@ namespace Neural_OCR.Network
             winner.AdjustWeights(learningRate);*/
 
 
+        }
+
+        public void AdjustNeuronsWeights(double learningRate, double momentum)
+        {
+            _neurons.ForEach(n =>
+            {
+                n.AdjustWeights(learningRate, momentum);
+            });
         }
     }
 }
