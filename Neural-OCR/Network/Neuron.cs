@@ -5,7 +5,6 @@ namespace Neural_OCR.Network
 {
     public class Neuron //TODO Zaimplementować momentum
     {
-        private double _previouseBiasWeight;
         private double _biasWeight;
         private static double _biasValue = 1.0;
         private double _output;
@@ -39,7 +38,6 @@ namespace Neural_OCR.Network
 
             double randomVal = _random.NextDouble();
             _biasWeight = randomVal;
-            _previouseBiasWeight = randomVal;
         }
 
         public void AdjustWeights(double learningRate)
@@ -55,17 +53,15 @@ namespace Neural_OCR.Network
         public void AdjustWeights(double learningRate, double momentum)
         {
             var tempWeights = new List<double>(Weights);
-            var tempBias = _biasWeight;
 
             for (int i = 0; i < Weights.Count; i++)
             {
                 Weights[i] = Weights[i] + learningRate * Error * Inputs[i] - momentum * (Weights[i] - PreviousWeights[i]);
             }
 
-            _biasWeight = _biasWeight + learningRate * Error * _biasValue - momentum * (_biasWeight - _previouseBiasWeight);
+            _biasWeight = _biasWeight + learningRate * Error * _biasValue;
 
             PreviousWeights = tempWeights;
-            _previouseBiasWeight = tempBias;
         }
 
         public void SetError(List<double> forwardNeuronsErrors, List<double> forwardNeuronsWeights)
