@@ -6,6 +6,9 @@ using Neural_OCR.Network;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using System.Linq;
+using CsvHelper;
 
 namespace Neural_OCR.Parser
 {
@@ -136,5 +139,67 @@ namespace Neural_OCR.Parser
             }
         }
 
+        public List<int> ReadExpectedOutputsFromCsv(int numberOfRowsToLoadFromFile)
+        {
+            if (numberOfRowsToLoadFromFile < 1)
+                numberOfRowsToLoadFromFile = 36000;
+
+            var parser = new CsvParser(new StreamReader("mnist_train.csv"));
+            List<int> expectedOutputs = new List<int>();
+            int iter = 0;
+
+            while (true)
+            {
+                var row = parser.Read();
+
+                if (row == null || iter > numberOfRowsToLoadFromFile) 
+                {
+                    break;
+                }
+
+                expectedOutputs.Add(int.Parse(row[0]));
+                iter++;
+            }
+
+            return expectedOutputs;
+        }
+
+        public List<List<double>> LoadTrainingInputsFromCsv()
+        {
+            var parser = new CsvParser(new StreamReader("mnist_train.csv"));
+            List<List<double>> trainingData = new List<List<double>>();
+            int iter = 0;
+            while (true)
+            {
+                var row = parser.Read();
+
+                if (row == null)
+                {
+                    break;
+                }
+
+                trainingData.Add(row.Select(s => double.Parse(s)).ToList());
+
+                var singleTrainData = trainingData[iter];
+
+                //Usuń oczekiwany output z listy
+                singleTrainData.RemoveAt(0); 
+
+                for (int i = 0; i < singleTrainData.Count; i++)
+                {
+                    if (singleTrainData[i] > 200)
+                    {
+                        singleTrainData[i] = -1;
+                    }
+                    else
+                    {
+                        singleTrainData[i] = 1;
+                    }
+                }
+
+                iter++;
+            }
+            return trainingData;
+        }
     }
 }

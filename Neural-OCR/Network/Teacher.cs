@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using ZedGraph;
 
 namespace Neural_OCR.Network
@@ -12,6 +13,9 @@ namespace Neural_OCR.Network
         private NeuralNetwork _network;
         private List<TeachingElement> _elements;
         private PointPairList _errorListForChart;
+
+        private List<int> _expectedOutputs;
+        private List<List<double>> _trainingInputs;
 
         public double GlobalError
         {
@@ -28,16 +32,28 @@ namespace Neural_OCR.Network
             _elements = new List<TeachingElement>();
             _errorListForChart = errorListForChart;
 
-            //for (int i = 0; i < 2; i++)
-            //{
-            //    _elements.Add(_parser.CreateTeachingElementFromImage(
-            //        Path.GetFullPath($"Digits/{i}.jpg"),
-            //        i
-            //        ));
-            //}
+            _expectedOutputs = _parser.ReadExpectedOutputsFromCsv(36000);
+            _trainingInputs = _parser.LoadTrainingInputsFromCsv();
+
+            for (int i = 0; i < _expectedOutputs.Count; i++)
+            {
+                _elements.Add(new TeachingElement
+                {
+                    ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(_expectedOutputs[i]),
+                    Inputs = _trainingInputs[i]
+                });
+            }
+
+            /*for (int i = 0; i < 10; i++)
+            {
+                _elements.Add(_parser.CreateTeachingElementFromImage(
+                    Path.GetFullPath($"Digits/{i}.jpg"),
+                    i
+                    ));
+            }*/
 
 
-            _elements.AddRange(
+            /*_elements.AddRange(
                 new List<TeachingElement>
                 {
                     new TeachingElement
@@ -160,7 +176,7 @@ namespace Neural_OCR.Network
                         },
                         ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(9),
                     }
-                });
+                });*/
         }
 
 
@@ -178,7 +194,7 @@ namespace Neural_OCR.Network
 
         public void Test(Bitmap image)
         {
-            TeachingElement element = _parser.CreateTeachingElementFromImage(image, 0);
+            TeachingElement element = _parser.CreateTeachingElementFromImage(image, 2);
 
             var output = _network.Test(element);
 
