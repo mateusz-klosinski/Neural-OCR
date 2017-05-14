@@ -187,7 +187,7 @@ namespace Neural_OCR
                         Graphics g = Graphics.FromImage(image);
 
                         // draw a point
-                        g.FillEllipse(brush, x - 10, y - 10, 20, 20);
+                        g.FillEllipse(brush, x - 5, y - 5, 11, 11);
 
                         g.Dispose();
                     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Neural_OCR.Network
 {
@@ -11,8 +12,8 @@ namespace Neural_OCR.Network
 
         private Random _randomGenerator;
 
-        public double _learningRate { get; set; } = 0.1;
-        public double momentum { get; set; } = 0.4;
+        public double _learningRate { get; set; } = 0.3;
+        public double momentum { get; set; } = 0.7;
 
         public int NumberOfInputs { get; private set; }
         public int NumberOfNeuronsInHiddenLayer { get; private set; }
@@ -86,10 +87,15 @@ namespace Neural_OCR.Network
 
 
 
-        public List<double> Test(TeachingElement element)
+        public double Test(TeachingElement element)
         {
             List<double> outputResponse = forwardPropagate(element);
-            return outputResponse;
+
+            var sortedOutputResponse = new List<double>(outputResponse);
+            sortedOutputResponse.Sort();
+            sortedOutputResponse.Reverse();
+
+            return outputResponse.IndexOf(sortedOutputResponse.First());
         }
 
 

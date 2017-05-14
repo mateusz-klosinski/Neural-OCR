@@ -6,9 +6,6 @@ using Neural_OCR.Network;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using CsvHelper;
 
 namespace Neural_OCR.Parser
 {
@@ -16,56 +13,55 @@ namespace Neural_OCR.Parser
     {
 
         private Mat _processedImage;
-        private List<double> _pixelValues;
+        private List<double> _extractedFeatures;
 
 
 
         public ImageParser()
         {
-            _pixelValues = new List<double>();
+            _extractedFeatures = new List<double>();
         }
+
+
 
         public TeachingElement CreateTeachingElementFromImage(Bitmap image, int expectedDigit = 0)
         {
-            _pixelValues.Clear();
 
             Image<Bgr, Byte> imageCV = new Image<Bgr, byte>(image);
             _processedImage = imageCV.Mat;
-            preprocessImage();
-            removeBlankPlaces();
-            resizeImage();
-            addPixelValues();
+            CvInvoke.Resize(_processedImage, _processedImage, new Size(70, 100));
 
-            return new TeachingElement
-            {
-                Inputs = _pixelValues,
-                ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(expectedDigit)
-            };
+            return createTeachingElement(expectedDigit);
         }
 
 
         public TeachingElement CreateTeachingElementFromImage(string path, int expectedDigit)
         {
-            _pixelValues.Clear();
 
-            loadImageFromFile(path);
+            _processedImage = CvInvoke.Imread(path, LoadImageType.Grayscale);
+
+            return createTeachingElement(expectedDigit);
+        }
+
+
+
+
+        private TeachingElement createTeachingElement(int expectedDigit)
+        {
+            _extractedFeatures.Clear();
+
             preprocessImage();
             removeBlankPlaces();
-            resizeImage();
-            addPixelValues();
+            findHorizontalCrossings();
+            findVerticalCrossings();
+            normalizeInputs();
 
 
             return new TeachingElement
             {
-                Inputs = _pixelValues,
+                Inputs = new List<double>(_extractedFeatures),
                 ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(expectedDigit)
             };
-        }
-
-
-        private void loadImageFromFile(string path)
-        {
-            _processedImage = CvInvoke.Imread(path, LoadImageType.Grayscale);
         }
 
 
@@ -108,98 +104,104 @@ namespace Neural_OCR.Parser
         }
 
 
-        private void resizeImage()
+
+        private void findHorizontalCrossings()
         {
-            CvInvoke.Resize(_processedImage, _processedImage, new Size(3, 5), 0, 0, Inter.Area);
-            removeBlankPlaces();
-        }
+            int numberOfLines = 10;
+            double percentageOfHeightWhereWillBeLastLine = 0.95;
+            double step = percentageOfHeightWhereWillBeLastLine / numberOfLines;
 
 
-        private void addPixelValues()
-        {
-            double value = 0;
+            Bitmap tempOriginalImage = new Bitmap(_processedImage.Bitmap);
 
-            for (int i = 0; i < _processedImage.Bitmap.Height; i++)
+
+            double currentStep = step;
+            for (int i = 0; i < numberOfLines; i++)
             {
-                for (int j = 0; j < _processedImage.Bitmap.Width; j++)
-                {
-                    value = _processedImage.Bitmap.GetPixel(j, i).B;
+                bool foundCrossing = false;
+                int crossings = 0;
 
-                    if (value > 200)
+                int currentHeight = (int)(tempOriginalImage.Height * currentStep);
+
+                for (int j = 0; j < tempOriginalImage.Width; j++)
+                {
+                    var color = tempOriginalImage.GetPixel(j, currentHeight);
+
+                    if (color.R == 0)
                     {
-                        value = -1;
+                        if (!foundCrossing)
+                        {
+                            foundCrossing = true;
+                            crossings++;
+                        }
                     }
                     else
                     {
-                        value = 1;
+                        foundCrossing = false;
                     }
-                    _pixelValues.Add(value);
-                    value = 0;
                 }
+
+                _extractedFeatures.Add(crossings);
+                foundCrossing = false;
+                crossings = 0;
+
+                currentStep += step;
             }
         }
 
-        public List<int> ReadExpectedOutputsFromCsv(int numberOfRowsToLoadFromFile)
+        private void findVerticalCrossings()
         {
-            if (numberOfRowsToLoadFromFile < 1)
-                numberOfRowsToLoadFromFile = 36000;
+            int numberOfLines = 10;
+            double percentageOfWidthWhereWillBeLastLine = 0.95;
+            double step = percentageOfWidthWhereWillBeLastLine / numberOfLines;
 
-            var parser = new CsvParser(new StreamReader("mnist_train.csv"));
-            List<int> expectedOutputs = new List<int>();
-            int iter = 0;
 
-            while (true)
+            Bitmap tempOriginalImage = new Bitmap(_processedImage.Bitmap);
+
+
+            double currentStep = step;
+            for (int i = 0; i < numberOfLines; i++)
             {
-                var row = parser.Read();
+                bool foundCrossing = false;
+                int crossings = 0;
 
-                if (row == null || iter > numberOfRowsToLoadFromFile) 
+                int currentWidth = (int)(tempOriginalImage.Width * currentStep);
+
+                for (int j = 0; j < tempOriginalImage.Height; j++)
                 {
-                    break;
-                }
+                    var color = tempOriginalImage.GetPixel(currentWidth, j);
 
-                expectedOutputs.Add(int.Parse(row[0]));
-                iter++;
-            }
-
-            return expectedOutputs;
-        }
-
-        public List<List<double>> LoadTrainingInputsFromCsv()
-        {
-            var parser = new CsvParser(new StreamReader("mnist_train.csv"));
-            List<List<double>> trainingData = new List<List<double>>();
-            int iter = 0;
-            while (true)
-            {
-                var row = parser.Read();
-
-                if (row == null)
-                {
-                    break;
-                }
-
-                trainingData.Add(row.Select(s => double.Parse(s)).ToList());
-
-                var singleTrainData = trainingData[iter];
-
-                //Usuń oczekiwany output z listy
-                singleTrainData.RemoveAt(0); 
-
-                for (int i = 0; i < singleTrainData.Count; i++)
-                {
-                    if (singleTrainData[i] > 200)
+                    if (color.R == 0)
                     {
-                        singleTrainData[i] = -1;
+                        if (!foundCrossing)
+                        {
+                            foundCrossing = true;
+                            crossings++;
+                        }
                     }
                     else
                     {
-                        singleTrainData[i] = 1;
+                        foundCrossing = false;
                     }
                 }
 
-                iter++;
+                _extractedFeatures.Add(crossings);
+                foundCrossing = false;
+                crossings = 0;
+
+                currentStep += step;
             }
-            return trainingData;
         }
+
+
+        private void normalizeInputs()
+        {
+            for (int i = 0; i < _extractedFeatures.Count; i++)
+            {
+                _extractedFeatures[i] = (_extractedFeatures[i] - 1) / (4 - 1) * (1 - (-1)) + (-1);
+            }
+        }
+
+
     }
 }

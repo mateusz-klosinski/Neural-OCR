@@ -9,7 +9,7 @@ namespace Neural_OCR
     {
         private Teacher _teacher;
         private PointPairList errorListForChart;
-        private int _numberOfEpochs = 200;
+        private int _numberOfEpochs = 2000;
 
         public MainForm()
         {
@@ -25,8 +25,8 @@ namespace Neural_OCR
         {
             var network = new NeuralNetwork();
 
-            network.InitializeInputLayer(784, 50);
-            network.InitializeHiddenLayers(1, 10);
+            network.InitializeInputLayer(20, 10);
+            network.InitializeHiddenLayers(1, 8);
             network.InitializeOutputLayer(10);
             network.Randomize();
 
@@ -68,7 +68,9 @@ namespace Neural_OCR
 
         private void buttonRecognize_Click(object sender, System.EventArgs e)
         {
-            _teacher.Test(paintBoard1.GetImage());
+            var number = _teacher.Test(paintBoard1.GetImage());
+
+            textBoxResult.Text = number.ToString();
         }
     }
 }

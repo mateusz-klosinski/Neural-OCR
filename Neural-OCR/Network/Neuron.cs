@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Neural_OCR.Network
 {
-    public class Neuron 
+    public class Neuron
     {
         private double _biasWeight;
         private static double _biasValue = 1.0;
@@ -31,12 +31,12 @@ namespace Neural_OCR.Network
         {
             for (int i = 0; i < numberOfInputs; i++)
             {
-                double randomValue = _random.NextDouble() * (0.1 - (-0.1)) + (-0.1);
+                double randomValue = _random.NextDouble();
                 Weights.Add(randomValue);
                 PreviousWeights.Add(randomValue);
             }
 
-            double randomVal = _random.NextDouble() * (0.1 - (-0.1)) + (-0.1);
+            double randomVal = _random.NextDouble();
             _biasWeight = randomVal;
         }
 
