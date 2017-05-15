@@ -32,14 +32,23 @@ namespace Neural_OCR.Network
             _elements = new List<TeachingElement>();
             _errorListForChart = errorListForChart;
 
-
-
-            for (int i = 0; i < 10; i++)
+            /*for (int i = 0; i < 10; i++)
             {
                 _elements.Add(_parser.CreateTeachingElementFromImage(
                     Path.GetFullPath($"Digits/{i}.jpg"),
                     i
                     ));
+            }*/
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 1; j < 51; j++)
+                {
+                    _elements.Add(_parser.CreateTeachingElementFromImage(
+                    Path.GetFullPath($"MnistDigits/{i}-{j}.png"),
+                    i
+                    ));
+                }
             }
         }
 
