@@ -107,8 +107,8 @@ namespace Neural_OCR.Parser
 
         private void findHorizontalCrossings()
         {
-            int numberOfLines = 10;
-            double percentageOfHeightWhereWillBeLastLine = 0.95;
+            int numberOfLines = 40;
+            double percentageOfHeightWhereWillBeLastLine = 0.97;
             double step = percentageOfHeightWhereWillBeLastLine / numberOfLines;
 
 
@@ -151,8 +151,8 @@ namespace Neural_OCR.Parser
 
         private void findVerticalCrossings()
         {
-            int numberOfLines = 10;
-            double percentageOfWidthWhereWillBeLastLine = 0.95;
+            int numberOfLines = 40;
+            double percentageOfWidthWhereWillBeLastLine = 0.97;
             double step = percentageOfWidthWhereWillBeLastLine / numberOfLines;
 
 

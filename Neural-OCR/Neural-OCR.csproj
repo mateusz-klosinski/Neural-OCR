@@ -96,6 +96,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ListExtensions\ShuffleList.cs" />
     <Compile Include="Network\Layer.cs" />
     <Compile Include="Network\TeachingElement.cs" />
     <Compile Include="PaintBoard.cs">
@@ -152,7 +153,68 @@
   <ItemGroup>
     <Folder Include="Digits\" />
     <Folder Include="MnistDigits\" />
-    <Folder Include="PaintDigits\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="PaintDigits\0-0.png" />
+    <Content Include="PaintDigits\0-1.png" />
+    <Content Include="PaintDigits\0-2.png" />
+    <Content Include="PaintDigits\0-3.png" />
+    <Content Include="PaintDigits\0-4.png" />
+    <Content Include="PaintDigits\0-5.png" />
+    <Content Include="PaintDigits\1-0.png" />
+    <Content Include="PaintDigits\1-1.png" />
+    <Content Include="PaintDigits\1-2.png" />
+    <Content Include="PaintDigits\1-3.png" />
+    <Content Include="PaintDigits\1-4.png" />
+    <Content Include="PaintDigits\1-5.png" />
+    <Content Include="PaintDigits\2-0.png" />
+    <Content Include="PaintDigits\2-1.png" />
+    <Content Include="PaintDigits\2-2.png" />
+    <Content Include="PaintDigits\2-3.png" />
+    <Content Include="PaintDigits\2-4.png" />
+    <Content Include="PaintDigits\2-5.png" />
+    <Content Include="PaintDigits\3-0.png" />
+    <Content Include="PaintDigits\3-1.png" />
+    <Content Include="PaintDigits\3-2.png" />
+    <Content Include="PaintDigits\3-3.png" />
+    <Content Include="PaintDigits\3-4.png" />
+    <Content Include="PaintDigits\3-5.png" />
+    <Content Include="PaintDigits\4-0.png" />
+    <Content Include="PaintDigits\4-1.png" />
+    <Content Include="PaintDigits\4-2.png" />
+    <Content Include="PaintDigits\4-3.png" />
+    <Content Include="PaintDigits\4-4.png" />
+    <Content Include="PaintDigits\4-5.png" />
+    <Content Include="PaintDigits\5-0.png" />
+    <Content Include="PaintDigits\5-1.png" />
+    <Content Include="PaintDigits\5-2.png" />
+    <Content Include="PaintDigits\5-3.png" />
+    <Content Include="PaintDigits\5-4.png" />
+    <Content Include="PaintDigits\5-5.png" />
+    <Content Include="PaintDigits\6-0.png" />
+    <Content Include="PaintDigits\6-1.png" />
+    <Content Include="PaintDigits\6-2.png" />
+    <Content Include="PaintDigits\6-3.png" />
+    <Content Include="PaintDigits\6-4.png" />
+    <Content Include="PaintDigits\6-5.png" />
+    <Content Include="PaintDigits\7-0.png" />
+    <Content Include="PaintDigits\7-1.png" />
+    <Content Include="PaintDigits\7-2.png" />
+    <Content Include="PaintDigits\7-3.png" />
+    <Content Include="PaintDigits\7-4.png" />
+    <Content Include="PaintDigits\7-5.png" />
+    <Content Include="PaintDigits\8-0.png" />
+    <Content Include="PaintDigits\8-1.png" />
+    <Content Include="PaintDigits\8-2.png" />
+    <Content Include="PaintDigits\8-3.png" />
+    <Content Include="PaintDigits\8-4.png" />
+    <Content Include="PaintDigits\8-5.png" />
+    <Content Include="PaintDigits\9-0.png" />
+    <Content Include="PaintDigits\9-1.png" />
+    <Content Include="PaintDigits\9-2.png" />
+    <Content Include="PaintDigits\9-3.png" />
+    <Content Include="PaintDigits\9-4.png" />
+    <Content Include="PaintDigits\9-5.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

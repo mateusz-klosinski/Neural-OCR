@@ -1,4 +1,5 @@
-﻿using Neural_OCR.Parser;
+﻿using Neural_OCR.ListExtensions;
+using Neural_OCR.Parser;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -42,7 +43,7 @@ namespace Neural_OCR.Network
 
             for (int i = 0; i < 10; i++)
             {
-                for (int j = 0; j < 3; j++)
+                for (int j = 0; j < 6; j++)
                 {
                     _elements.Add(_parser.CreateTeachingElementFromImage(
                     Path.GetFullPath($"PaintDigits/{i}-{j}.png"),
@@ -59,6 +60,7 @@ namespace Neural_OCR.Network
             {
                 _elements.ForEach(e => _network.Learn(e));
                 _elements.Reverse();
+                _elements.Shuffle();
                 Debug.WriteLine(GlobalError);
                 _errorListForChart.Add(i, GlobalError);
             }
