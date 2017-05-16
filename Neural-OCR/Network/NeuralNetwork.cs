@@ -12,8 +12,8 @@ namespace Neural_OCR.Network
 
         private Random _randomGenerator;
 
-        public double _learningRate { get; set; } = 0.2;
-        public double momentum { get; set; } = 0.6;
+        public double _learningRate { get; set; } = 0.3;
+        public double momentum { get; set; } = 0.7;
 
         public int NumberOfInputs { get; private set; }
         public int NumberOfNeuronsInHiddenLayer { get; private set; }
