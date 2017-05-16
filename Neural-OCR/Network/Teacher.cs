@@ -42,10 +42,10 @@ namespace Neural_OCR.Network
 
             for (int i = 0; i < 10; i++)
             {
-                for (int j = 1; j < 51; j++)
+                for (int j = 0; j < 3; j++)
                 {
                     _elements.Add(_parser.CreateTeachingElementFromImage(
-                    Path.GetFullPath($"MnistDigits/{i}-{j}.png"),
+                    Path.GetFullPath($"PaintDigits/{i}-{j}.png"),
                     i
                     ));
                 }

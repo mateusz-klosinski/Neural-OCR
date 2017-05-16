@@ -26,7 +26,7 @@ namespace Neural_OCR
             var network = new NeuralNetwork();
 
             network.InitializeInputLayer(20, 10);
-            network.InitializeHiddenLayers(1, 8);
+            network.InitializeHiddenLayers(1, 10);
             network.InitializeOutputLayer(10);
             network.Randomize();
 

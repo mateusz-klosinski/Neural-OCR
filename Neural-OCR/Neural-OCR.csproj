@@ -152,6 +152,7 @@
   <ItemGroup>
     <Folder Include="Digits\" />
     <Folder Include="MnistDigits\" />
+    <Folder Include="PaintDigits\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
