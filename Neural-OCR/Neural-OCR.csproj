@@ -105,7 +105,8 @@
     <Compile Include="PaintBoard.Designer.cs">
       <DependentUpon>PaintBoard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Parser\ExpectedOutputFactory.cs" />
+    <Compile Include="Parser\ExpectedDigitOutputFactory.cs" />
+    <Compile Include="Parser\ExpectedLetterOutputFactory.cs" />
     <Compile Include="Parser\ImageParser.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -152,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Digits\" />
+    <Folder Include="Letters\" />
     <Folder Include="MnistDigits\" />
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 
 namespace Neural_OCR.Parser
 {
-    public static class ExpectedOutputFactory
+    public static class ExpectedDigitOutputFactory
     {
         public static List<double> getExpectedOutput(int number)
         {

@@ -14,12 +14,13 @@ namespace Neural_OCR.Parser
 
         private Mat _processedImage;
         private List<double> _extractedFeatures;
+        private string _dataSetFolder;
 
 
-
-        public ImageParser()
+        public ImageParser(string dataSetFolder)
         {
             _extractedFeatures = new List<double>();
+            _dataSetFolder = dataSetFolder;
         }
 
 
@@ -37,7 +38,6 @@ namespace Neural_OCR.Parser
 
         public TeachingElement CreateTeachingElementFromImage(string path, int expectedDigit)
         {
-
             _processedImage = CvInvoke.Imread(path, LoadImageType.Grayscale);
 
             return createTeachingElement(expectedDigit);
@@ -57,10 +57,19 @@ namespace Neural_OCR.Parser
             normalizeInputs();
 
 
+            if (_dataSetFolder == "Letters")
+            {
+                return new TeachingElement
+                {
+                    Inputs = new List<double>(_extractedFeatures),
+                    ExpectedOutputs = ExpectedLetterOutputFactory.getExpectedOutput(expectedDigit)
+                };
+            }
+
             return new TeachingElement
             {
                 Inputs = new List<double>(_extractedFeatures),
-                ExpectedOutputs = ExpectedOutputFactory.getExpectedOutput(expectedDigit)
+                ExpectedOutputs = ExpectedDigitOutputFactory.getExpectedOutput(expectedDigit)
             };
         }
 
