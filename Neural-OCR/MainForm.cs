@@ -15,11 +15,16 @@ namespace Neural_OCR
         public int NumberOfHiddenLayers { get; set; } = 1;
         public int NumberOfInputNeurons { get; set; } = 15;
         public int NumberOfNeuronsInEveryHiddenLayer { get; set; } = 10;
+        public int NumberOfOutputs { get; set; } 
+        public int NumberOfCharactersToRecognize { get; set; }
+        public int NumberOfExamplesForSingleChar { get; set; }
 
+        public string DataSet { get; set; } 
 
         public MainForm()
         {
             InitializeComponent();
+            GraphRefreshTimer.Interval = 100;
         }
 
 
@@ -29,7 +34,7 @@ namespace Neural_OCR
 
             network.InitializeInputLayer(80, NumberOfInputNeurons);
             network.InitializeHiddenLayers(NumberOfHiddenLayers, NumberOfNeuronsInEveryHiddenLayer);
-            network.InitializeOutputLayer(10);
+            network.InitializeOutputLayer(NumberOfOutputs);
             network.Randomize();
 
             return network;
@@ -60,6 +65,7 @@ namespace Neural_OCR
         private void buttonTeachNetwork_Click(object sender, System.EventArgs e)
         {
             _teacher.Learn(NumberOfEpochs);
+            GraphRefreshTimer.Start();
         }
 
         private void ButtonClearPaintBoard_Click(object sender, System.EventArgs e)
@@ -109,13 +115,34 @@ namespace Neural_OCR
             NumberOfEpochs = (int)numericUpDownEpochs.Value;
         }
 
+        private void radioButtonDigitsOcr_CheckedChanged(object sender, System.EventArgs e)
+        {
+            NumberOfOutputs = 10;
+            DataSet = "PaintDigits";
+            NumberOfCharactersToRecognize = 10;
+            NumberOfExamplesForSingleChar = 6;
+        }
+
+        private void radioButtonLettersOcr_CheckedChanged(object sender, System.EventArgs e)
+        {
+            NumberOfOutputs = 24;
+            DataSet = "Letters";
+            NumberOfCharactersToRecognize = 24;
+            NumberOfExamplesForSingleChar = 3;
+        }
+
         private void buttonInitialize_Click(object sender, System.EventArgs e)
         {
             errorListForChart = initializeLearningChart();
 
             var network = initializeNetwork();
-            _teacher = new Teacher(network, errorListForChart);
+            _teacher = new Teacher(network, errorListForChart, DataSet, NumberOfCharactersToRecognize, NumberOfExamplesForSingleChar);
 
+            numericUpDownMomentum.Enabled = true;
+            numericUpDownLearningRate.Enabled = true;
+
+            radioButtonDigitsOcr.Enabled = false;
+            radioButtonLettersOcr.Enabled = false;
 
             numericUpDownNumberOfHiddenLayers.Enabled = false;
             numericUpDownNumberOfInputNeurons.Enabled = false;
@@ -123,6 +150,11 @@ namespace Neural_OCR
 
             buttonInitialize.Enabled = false;
             buttonTeachNetwork.Enabled = true;
+        }
+
+        private void GraphRefreshTimer_Tick(object sender, System.EventArgs e)
+        {
+            learningChart.Invalidate();
         }
     }
 }

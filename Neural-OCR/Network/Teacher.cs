@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using ZedGraph;
 
 namespace Neural_OCR.Network
@@ -49,21 +50,20 @@ namespace Neural_OCR.Network
         }
 
 
-
-        public Teacher(NeuralNetwork network, PointPairList errorListForChart)
+        public Teacher(NeuralNetwork network, PointPairList errorListForChart, string dataSet, int numberOfCharactersToRecognize, int numberOfExamplesForSingleChar)
         {
-            _parser = new ImageParser();
+            _parser = new ImageParser(dataSet);
             _network = network;
             _elements = new List<TeachingElement>();
             _errorListForChart = errorListForChart;
 
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < numberOfCharactersToRecognize; i++)
             {
-                for (int j = 0; j < 6; j++)
+                for (int j = 0; j < numberOfExamplesForSingleChar; j++)
                 {
                     _elements.Add(_parser.CreateTeachingElementFromImage(
-                    Path.GetFullPath($"PaintDigits/{i}-{j}.png"),
+                    Path.GetFullPath($"{dataSet}/{i}-{j}.png"),
                     i
                     ));
                 }
@@ -73,14 +73,17 @@ namespace Neural_OCR.Network
 
         public void Learn(int numberOfEpochs)
         {
-            for (int i = 0; i < numberOfEpochs; i++)
+            Task.Run(() =>
             {
-                _elements.ForEach(e => _network.Learn(e));
-                _elements.Reverse();
-                _elements.Shuffle();
-                Debug.WriteLine(GlobalError);
-                _errorListForChart.Add(i, GlobalError);
-            }
+                for (int i = 0; i < numberOfEpochs; i++)
+                {
+                    _elements.ForEach(e => _network.Learn(e));
+                    _elements.Reverse();
+                    _elements.Shuffle();
+                    Debug.WriteLine(GlobalError);
+                    _errorListForChart.Add(i, GlobalError);
+                }
+            });
         }
 
 

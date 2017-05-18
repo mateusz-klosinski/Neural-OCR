@@ -109,32 +109,6 @@ namespace Neural_OCR.Network
             }
         }
 
-        public void AdjustNeuronsWeights(double learningRate)
-        {
-            _neurons.ForEach(n =>
-            {
-                n.AdjustWeights(learningRate);
-            });
-
-
-
-            /*//WTA
-            Neuron winner = null;
-            double maxOutput = 0;
-            _neurons.ForEach(n =>
-            {
-                if (n.Output() > maxOutput)
-                {
-                    maxOutput = n.Output();
-                    winner = n;
-                }
-            });
-
-            winner.AdjustWeights(learningRate);*/
-
-
-        }
-
         public void AdjustNeuronsWeights(double learningRate, double momentum)
         {
             _neurons.ForEach(n =>

@@ -40,16 +40,6 @@ namespace Neural_OCR.Network
             _biasWeight = randomVal;
         }
 
-        public void AdjustWeights(double learningRate)
-        {
-            for (int i = 0; i < Weights.Count; i++)
-            {
-                Weights[i] = Weights[i] + learningRate * Error * Inputs[i];
-            }
-
-            _biasWeight = _biasWeight + learningRate * Error * _biasValue;
-        }
-
         public void AdjustWeights(double learningRate, double momentum)
         {
             var tempWeights = new List<double>(Weights);
