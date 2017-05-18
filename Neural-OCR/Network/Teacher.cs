@@ -15,8 +15,6 @@ namespace Neural_OCR.Network
         private List<TeachingElement> _elements;
         private PointPairList _errorListForChart;
 
-        private List<int> _expectedOutputs;
-        private List<List<double>> _trainingInputs;
 
         public double GlobalError
         {
@@ -26,6 +24,32 @@ namespace Neural_OCR.Network
             }
         }
 
+        public double Momentum
+        {
+            get
+            {
+                return _network.Momentum;
+            }
+            set
+            {
+                _network.Momentum = value;
+            }
+        }
+
+        public double LearningRate
+        {
+            get
+            {
+                return _network.LearningRate;
+            }
+            set
+            {
+                _network.LearningRate = value;
+            }
+        }
+
+
+
         public Teacher(NeuralNetwork network, PointPairList errorListForChart)
         {
             _parser = new ImageParser();
@@ -33,13 +57,6 @@ namespace Neural_OCR.Network
             _elements = new List<TeachingElement>();
             _errorListForChart = errorListForChart;
 
-            /*for (int i = 0; i < 10; i++)
-            {
-                _elements.Add(_parser.CreateTeachingElementFromImage(
-                    Path.GetFullPath($"Digits/{i}.jpg"),
-                    i
-                    ));
-            }*/
 
             for (int i = 0; i < 10; i++)
             {
