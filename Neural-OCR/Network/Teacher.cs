@@ -73,6 +73,23 @@ namespace Neural_OCR.Network
 
         public void Learn(int numberOfEpochs)
         {
+            /*int j=0;
+            Task.Run(() =>
+            {
+                for (int i = 0; i < numberOfEpochs; i++)
+                {
+                    _elements.ForEach(e =>
+                    {
+                        _network.Learn(e);
+
+                        Debug.WriteLine(GlobalError);
+                        _errorListForChart.Add(j++, GlobalError);
+                    });
+                    _elements.Reverse();
+                    _elements.Shuffle();
+                }
+            });*/
+
             Task.Run(() =>
             {
                 for (int i = 0; i < numberOfEpochs; i++)
@@ -82,6 +99,9 @@ namespace Neural_OCR.Network
                     _elements.Shuffle();
                     Debug.WriteLine(GlobalError);
                     _errorListForChart.Add(i, GlobalError);
+                    /*Naprawiłem to, że wrzuca do grafu błąd każdego znaku po kolei 
+                     *ale to co się odpitala z UI to o panie, więc nie polecam tego. 
+                     *Jakiś mniej więcej wizualny pogląd i tak mamy ale jakby co to odkomentuj górę i możesz looknać :D*/
                 }
             });
         }
