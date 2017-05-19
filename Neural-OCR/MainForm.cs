@@ -82,7 +82,15 @@ namespace Neural_OCR
         {
             var number = _teacher.Test(paintBoard1.GetImage());
 
-            textBoxResult.Text = number.ToString();
+            if (DataSet == "Letters")
+            {
+                textBoxResult.Text = ((char)(number + 65)).ToString();
+            }
+
+            if (DataSet == "PaintDigits")
+            {
+                textBoxResult.Text = number.ToString();
+            }
         }
 
         private void numericUpDownNumberOfHiddenLayers_ValueChanged(object sender, System.EventArgs e)
@@ -125,9 +133,9 @@ namespace Neural_OCR
 
         private void radioButtonLettersOcr_CheckedChanged(object sender, System.EventArgs e)
         {
-            NumberOfOutputs = 24;
+            NumberOfOutputs = 26;
             DataSet = "Letters";
-            NumberOfCharactersToRecognize = 24;
+            NumberOfCharactersToRecognize = 26;
             NumberOfExamplesForSingleChar = 3;
         }
 
