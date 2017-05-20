@@ -59,7 +59,7 @@ namespace Neural_OCR.Parser
             normalizeInputs();
 
 
-            if (_dataSetFolder == "Letters")
+            if (_dataSetFolder == "MixedLetters")
             {
                 return new TeachingElement
                 {

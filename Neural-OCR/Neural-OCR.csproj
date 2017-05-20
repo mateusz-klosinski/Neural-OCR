@@ -154,6 +154,7 @@
   <ItemGroup>
     <Folder Include="Digits\" />
     <Folder Include="Letters\" />
+    <Folder Include="MixedLetters\" />
     <Folder Include="MnistDigits\" />
   </ItemGroup>
   <ItemGroup>

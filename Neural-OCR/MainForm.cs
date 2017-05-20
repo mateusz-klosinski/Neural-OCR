@@ -82,7 +82,7 @@ namespace Neural_OCR
         {
             var number = _teacher.Test(paintBoard1.GetImage());
 
-            if (DataSet == "Letters")
+            if (DataSet == "MixedLetters")
             {
                 textBoxResult.Text = ((char)(number + 65)).ToString();
             }
@@ -134,9 +134,9 @@ namespace Neural_OCR
         private void radioButtonLettersOcr_CheckedChanged(object sender, System.EventArgs e)
         {
             NumberOfOutputs = 26;
-            DataSet = "Letters";
+            DataSet = "MixedLetters";
             NumberOfCharactersToRecognize = 26;
-            NumberOfExamplesForSingleChar = 3;
+            NumberOfExamplesForSingleChar = 2;
         }
 
         private void buttonInitialize_Click(object sender, System.EventArgs e)
