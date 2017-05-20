@@ -52,12 +52,10 @@
             this.textBoxResult = new System.Windows.Forms.TextBox();
             this.buttonRecognize = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.labelError = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.numericUpDownEpochs = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.buttonTeachNetwork = new System.Windows.Forms.Button();
             this.GraphRefreshTimer = new System.Windows.Forms.Timer(this.components);
+            this.buttonTeachNetwork = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -119,8 +117,6 @@
             this.groupBox2.Controls.Add(this.textBoxResult);
             this.groupBox2.Controls.Add(this.buttonRecognize);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.labelError);
-            this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.numericUpDownEpochs);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.buttonTeachNetwork);
@@ -365,7 +361,7 @@
             // 
             // buttonRecognize
             // 
-            this.buttonRecognize.Location = new System.Drawing.Point(733, 285);
+            this.buttonRecognize.Location = new System.Drawing.Point(733, 295);
             this.buttonRecognize.Name = "buttonRecognize";
             this.buttonRecognize.Size = new System.Drawing.Size(212, 23);
             this.buttonRecognize.TabIndex = 5;
@@ -382,25 +378,6 @@
             this.label4.TabIndex = 3;
             this.label4.Text = "Network thinks it\'s";
             // 
-            // labelError
-            // 
-            this.labelError.AutoSize = true;
-            this.labelError.ForeColor = System.Drawing.Color.Green;
-            this.labelError.Location = new System.Drawing.Point(885, 259);
-            this.labelError.Name = "labelError";
-            this.labelError.Size = new System.Drawing.Size(52, 13);
-            this.labelError.TabIndex = 6;
-            this.labelError.Text = "0,049043";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(908, 246);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Error";
-            // 
             // numericUpDownEpochs
             // 
             this.numericUpDownEpochs.Enabled = false;
@@ -409,7 +386,7 @@
             0,
             0,
             0});
-            this.numericUpDownEpochs.Location = new System.Drawing.Point(733, 194);
+            this.numericUpDownEpochs.Location = new System.Drawing.Point(733, 209);
             this.numericUpDownEpochs.Maximum = new decimal(new int[] {
             5000,
             0,
@@ -433,26 +410,26 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(798, 178);
+            this.label1.Location = new System.Drawing.Point(798, 193);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(94, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "Number of epochs";
             // 
+            // GraphRefreshTimer
+            // 
+            this.GraphRefreshTimer.Tick += new System.EventHandler(this.GraphRefreshTimer_Tick);
+            // 
             // buttonTeachNetwork
             // 
             this.buttonTeachNetwork.Enabled = false;
-            this.buttonTeachNetwork.Location = new System.Drawing.Point(733, 220);
+            this.buttonTeachNetwork.Location = new System.Drawing.Point(733, 235);
             this.buttonTeachNetwork.Name = "buttonTeachNetwork";
             this.buttonTeachNetwork.Size = new System.Drawing.Size(212, 23);
             this.buttonTeachNetwork.TabIndex = 2;
             this.buttonTeachNetwork.Text = "Teach network";
             this.buttonTeachNetwork.UseVisualStyleBackColor = true;
             this.buttonTeachNetwork.Click += new System.EventHandler(this.buttonTeachNetwork_Click);
-            // 
-            // GraphRefreshTimer
-            // 
-            this.GraphRefreshTimer.Tick += new System.EventHandler(this.GraphRefreshTimer_Tick);
             // 
             // MainForm
             // 
@@ -485,9 +462,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button buttonTeachNetwork;
-        private System.Windows.Forms.Label labelError;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown numericUpDownEpochs;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBoxResult;
@@ -511,6 +485,7 @@
         private System.Windows.Forms.RadioButton radioButtonLettersOcr;
         private System.Windows.Forms.RadioButton radioButtonDigitsOcr;
         private System.Windows.Forms.Timer GraphRefreshTimer;
+        private System.Windows.Forms.Button buttonTeachNetwork;
     }
 }
 

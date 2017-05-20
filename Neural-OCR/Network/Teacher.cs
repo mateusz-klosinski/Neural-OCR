@@ -16,6 +16,8 @@ namespace Neural_OCR.Network
         private List<TeachingElement> _elements;
         private PointPairList _errorListForChart;
 
+        public bool IsLearningDone { get; private set; } = false;
+
 
         public double GlobalError
         {
@@ -73,25 +75,9 @@ namespace Neural_OCR.Network
 
         public void Learn(int numberOfEpochs)
         {
-            /*int j=0;
             Task.Run(() =>
             {
-                for (int i = 0; i < numberOfEpochs; i++)
-                {
-                    _elements.ForEach(e =>
-                    {
-                        _network.Learn(e);
-
-                        Debug.WriteLine(GlobalError);
-                        _errorListForChart.Add(j++, GlobalError);
-                    });
-                    _elements.Reverse();
-                    _elements.Shuffle();
-                }
-            });*/
-
-            Task.Run(() =>
-            {
+                IsLearningDone = false;
                 for (int i = 0; i < numberOfEpochs; i++)
                 {
                     _elements.ForEach(e => _network.Learn(e));
@@ -103,6 +89,7 @@ namespace Neural_OCR.Network
                      *ale to co się odpitala z UI to o panie, więc nie polecam tego. 
                      *Jakiś mniej więcej wizualny pogląd i tak mamy ale jakby co to odkomentuj górę i możesz looknać :D*/
                 }
+                IsLearningDone = true;
             });
         }
 

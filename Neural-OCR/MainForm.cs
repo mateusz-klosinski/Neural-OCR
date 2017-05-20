@@ -15,11 +15,11 @@ namespace Neural_OCR
         public int NumberOfHiddenLayers { get; set; } = 1;
         public int NumberOfInputNeurons { get; set; } = 15;
         public int NumberOfNeuronsInEveryHiddenLayer { get; set; } = 10;
-        public int NumberOfOutputs { get; set; } 
+        public int NumberOfOutputs { get; set; }
         public int NumberOfCharactersToRecognize { get; set; }
         public int NumberOfExamplesForSingleChar { get; set; }
 
-        public string DataSet { get; set; } 
+        public string DataSet { get; set; }
 
         public MainForm()
         {
@@ -32,7 +32,7 @@ namespace Neural_OCR
         {
             var network = new NeuralNetwork();
 
-            network.InitializeInputLayer(80, NumberOfInputNeurons);
+            network.InitializeInputLayer(120, NumberOfInputNeurons);
             network.InitializeHiddenLayers(NumberOfHiddenLayers, NumberOfNeuronsInEveryHiddenLayer);
             network.InitializeOutputLayer(NumberOfOutputs);
             network.Randomize();
@@ -158,11 +158,17 @@ namespace Neural_OCR
 
             buttonInitialize.Enabled = false;
             buttonTeachNetwork.Enabled = true;
+            numericUpDownEpochs.Enabled = true;
         }
 
         private void GraphRefreshTimer_Tick(object sender, System.EventArgs e)
         {
             learningChart.Invalidate();
+
+            if (_teacher.IsLearningDone)
+            {
+                GraphRefreshTimer.Stop();
+            }
         }
     }
 }

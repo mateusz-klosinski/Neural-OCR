@@ -54,6 +54,8 @@ namespace Neural_OCR.Parser
             removeBlankPlaces();
             findHorizontalCrossings();
             findVerticalCrossings();
+            findHeightDiagonalCrossings();
+            findWidthDiagonalCrossings();
             normalizeInputs();
 
 
@@ -203,11 +205,100 @@ namespace Neural_OCR.Parser
         }
 
 
+        private void findHeightDiagonalCrossings()
+        {
+            int numberOfLines = 20;
+            double percentageOfWidthWhereWillBeLastLine = 0.97;
+            double step = percentageOfWidthWhereWillBeLastLine / numberOfLines;
+
+
+            Bitmap tempOriginalImage = new Bitmap(_processedImage.Bitmap);
+
+
+            double currentStep = step;
+            for (int i = 0; i < numberOfLines; i++)
+            {
+                bool foundCrossing = false;
+                int crossings = 0;
+
+                int currentHeight = (int)(tempOriginalImage.Height * currentStep);
+
+                for (int j = 0, k = currentHeight; j < tempOriginalImage.Width && k < tempOriginalImage.Height; j++, k++)
+                {
+                    var color = tempOriginalImage.GetPixel(j, k);
+
+                    if (color.R == 0)
+                    {
+                        if (!foundCrossing)
+                        {
+                            foundCrossing = true;
+                            crossings++;
+                        }
+                    }
+                    else
+                    {
+                        foundCrossing = false;
+                    }
+                }
+
+                _extractedFeatures.Add(crossings);
+                foundCrossing = false;
+                crossings = 0;
+
+                currentStep += step;
+            }
+        }
+
+        private void findWidthDiagonalCrossings()
+        {
+            int numberOfLines = 20;
+            double percentageOfWidthWhereWillBeLastLine = 0.97;
+            double step = percentageOfWidthWhereWillBeLastLine / numberOfLines;
+
+
+            Bitmap tempOriginalImage = new Bitmap(_processedImage.Bitmap);
+
+
+            double currentStep = step;
+            for (int i = 0; i < numberOfLines; i++)
+            {
+                bool foundCrossing = false;
+                int crossings = 0;
+
+                int currentWidth = (int)(tempOriginalImage.Width * currentStep);
+
+                for (int j = currentWidth, k = 0; j < tempOriginalImage.Width && k < tempOriginalImage.Height; j++, k++)
+                {
+                    var color = tempOriginalImage.GetPixel(j, k);
+
+
+                    if (color.R == 0)
+                    {
+                        if (!foundCrossing)
+                        {
+                            foundCrossing = true;
+                            crossings++;
+                        }
+                    }
+                    else
+                    {
+                        foundCrossing = false;
+                    }
+                }
+
+                _extractedFeatures.Add(crossings);
+                foundCrossing = false;
+                crossings = 0;
+
+                currentStep += step;
+            }
+        }
+
         private void normalizeInputs()
         {
             for (int i = 0; i < _extractedFeatures.Count; i++)
             {
-                _extractedFeatures[i] = (_extractedFeatures[i] - 1) / (4 - 1) * (1 - (-1)) + (-1);
+                _extractedFeatures[i] = (_extractedFeatures[i] - 1) / (5 - 1) * (1 - (-1)) + (-1);
             }
         }
 
